@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Profiel voor KB microfilm:
+
+- Master: resolutie 300 ppi, kleurruimte Gray Gamma 2.2
+- Access: resolutie 300 ppi, kleurruimte Gray Gamma 2.2
+- Target: geen (schemaTarget hieronder wordt dus nooit gebruikt)
+
+ -->
+
+<!-- Names of Schematron schemas for master, access and target images
+NOTE: names only, not full paths (default location! -->
+
+<schemaMaster>master300Gray.sch</schemaMaster>
+<schemaAccess>access300Gray.sch</schemaAccess>
+<schemaTarget>master300Gray.sch</schemaTarget>
+
+</profile>
+
