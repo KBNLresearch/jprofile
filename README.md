@@ -77,10 +77,10 @@ The quality assessment is based on a number of rules/tests that are defined a se
 | master300Gray.sch|Schema for losslessly-compressed master images, 300 ppi, Gray Gamma 2.2 colour space|
 | master600Gray.sch|Schema for losslessly-compressed master images, 600 ppi, Gray Gamma 2.2 colour space|
 | kbAccess.sch|Generic schema for lossily-compressed access images |
-| access150Colour.sch|Schema for losslessly-compressed master images, 150 ppi, Adobe RGB (1998) colour space|
-| access300Colour.sch|Schema for losslessly-compressed master images, 300 ppi, Adobe RGB (1998) colour space|
-| access150Gray.sch|Schema for losslessly-compressed master images, 150 ppi, Gray Gamma 2.2 colour space|
-| access300Gray.sch|Schema for losslessly-compressed master images, 300 ppi, Gray Gamma 2.2 colour space|
+| access150Colour.sch|Schema for losslessly-compressed access images, 150 ppi, Adobe RGB (1998) colour space|
+| access300Colour.sch|Schema for losslessly-compressed access images, 300 ppi, Adobe RGB (1998) colour space|
+| access150Gray.sch|Schema for losslessly-compressed access images, 150 ppi, Gray Gamma 2.2 colour space|
+| access300Gray.sch|Schema for losslessly-compressed access images, 300 ppi, Gray Gamma 2.2 colour space|
 
 It is possible to create custom-made schemas. Just add them to the *schemas* directory in the installation folder.
 
