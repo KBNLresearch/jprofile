@@ -120,29 +120,28 @@ F:\test\master\MMKB03_000004896_00015_master.jp2,pass
 ## Failure output file
 Any image that failed one or more tests are reported in the failure output file. For each failed image, it contains a full reference to the file path, followed by the specific errors. An example:
 
-<pre>
-F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2
-*** Schema validation errors:
-Test "layers = '1'" failed (wrong number of layers)
-Test "transformation = '5-3 reversible'" failed (wrong transformation)
-Test "comment = 'KB_MASTER_LOSSLESS_21/01/2011'" failed (wrong codestream comment string)
-####
-</pre>
+
+    F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2
+    *** Schema validation errors:
+    Test "layers = '1'" failed (wrong number of layers)
+    Test "transformation = '5-3 reversible'" failed (wrong transformation)
+    Test "comment = 'KB_MASTER_LOSSLESS_21/01/2011'" failed (wrong codestream comment string)
+    ####
 
 Entries in this file are separated by a sequence of 4 '#' characters. Note that each line here corresponds to a failed test in the schema (this information is taken from *Probatron*'s output). For images that are identified as not-valid JP2 some additional information from *jpylyzer*'s output is included as well. For example:
 
-<pre>
-F:\test\master\MMUBL07_MTF_GRAY_20121213_01_05.jp2
-*** Schema validation errors:
-Test "isValidJP2 = 'True'" failed (no valid JP2)
-*** Jpylyzer JP2 validation errors:
-Test methIsValid failed
-Test precIsValid failed
-Test approxIsValid failed
-Test foundNextTilePartOrEOC failed
-Test foundEOCMarker failed
-####
-</pre>
+
+    F:\test\master\MMUBL07_MTF_GRAY_20121213_01_05.jp2
+    *** Schema validation errors:
+    Test "isValidJP2 = 'True'" failed (no valid JP2)
+    *** Jpylyzer JP2 validation errors:
+    Test methIsValid failed
+    Test precIsValid failed
+    Test approxIsValid failed
+    Test foundNextTilePartOrEOC failed
+    Test foundEOCMarker failed
+    ####
+    
 
 Here, the outcome of test *isValidJP2* means that the image does not conform to the *JP2* specification. The lines following 'Jpylyzer JP2 validation errors' lists the specific errors that were reported by *jpylyzer*. The meaning of these errors can be found in the *jpylyzer* User Manual.
 

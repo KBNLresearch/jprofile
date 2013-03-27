@@ -34,7 +34,7 @@
 # (this tool does a recursive scan of whole directory tree of a batch)
 
 
-__version__= "0.4.0"
+__version__= "0.4.1"
 
 import sys
 import os

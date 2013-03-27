@@ -39,7 +39,7 @@ md .\dist\%scriptBaseName%\schemas
 :: Copy files to dist directory
 copy /Y .\probatron\* .\dist\%scriptBaseName%\probatron\
 copy /Y .\doc\* .\dist\%scriptBaseName%\doc\
-copy /Y .\schemas\* .\dist\%scriptBaseName%\profiles\
+copy /Y .\profiles\* .\dist\%scriptBaseName%\profiles\
 copy /Y .\schemas\* .\dist\%scriptBaseName%\schemas\
 copy /Y .\config.xml .\dist\%scriptBaseName%\config.xml
 
