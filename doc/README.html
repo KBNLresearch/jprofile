@@ -419,19 +419,18 @@ F:\test\master\MMKB03_000004896_00015_master.jp2,pass
 </pre> 
 <h2>Failure output file</h2>
 <p>Any image that failed one or more tests are reported in the failure output file. For each failed image, it contains a full reference to the file path, followed by the specific errors. An example:</p>
-<pre>
-F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2
+<pre><code>F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2
 *** Schema validation errors:
-Test "layers = '1'" failed (wrong number of layers)
-Test "transformation = '5-3 reversible'" failed (wrong transformation)
-Test "comment = 'KB_MASTER_LOSSLESS_21/01/2011'" failed (wrong codestream comment string)
+Test &quot;layers = '1'&quot; failed (wrong number of layers)
+Test &quot;transformation = '5-3 reversible'&quot; failed (wrong transformation)
+Test &quot;comment = 'KB_MASTER_LOSSLESS_21/01/2011'&quot; failed (wrong codestream comment string)
 ####
-</pre>
+</code></pre>
+
 <p>Entries in this file are separated by a sequence of 4 '#' characters. Note that each line here corresponds to a failed test in the schema (this information is taken from <em>Probatron</em>'s output). For images that are identified as not-valid JP2 some additional information from <em>jpylyzer</em>'s output is included as well. For example:</p>
-<pre>
-F:\test\master\MMUBL07_MTF_GRAY_20121213_01_05.jp2
+<pre><code>F:\test\master\MMUBL07_MTF_GRAY_20121213_01_05.jp2
 *** Schema validation errors:
-Test "isValidJP2 = 'True'" failed (no valid JP2)
+Test &quot;isValidJP2 = 'True'&quot; failed (no valid JP2)
 *** Jpylyzer JP2 validation errors:
 Test methIsValid failed
 Test precIsValid failed
@@ -439,7 +438,8 @@ Test approxIsValid failed
 Test foundNextTilePartOrEOC failed
 Test foundEOCMarker failed
 ####
-</pre>
+</code></pre>
+
 <p>Here, the outcome of test <em>isValidJP2</em> means that the image does not conform to the <em>JP2</em> specification. The lines following 'Jpylyzer JP2 validation errors' lists the specific errors that were reported by <em>jpylyzer</em>. The meaning of these errors can be found in the <em>jpylyzer</em> User Manual.</p>
 <h2>Preconditions</h2>
 <ul>
