@@ -45,6 +45,8 @@ import argparse
 import xml.etree.ElementTree as ET
 import subprocess as sub
 import jpylyzer
+import config
+import codecs
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -373,9 +375,13 @@ def main():
             
             #Run jpylyzer on image and write result to text file
             try:
+                # Set encoding to UTF-8
+                f = codecs.open(nameJpylyzer, "w", config.UTF8_ENCODING, "replace")
                 resultJpylyzer=jpylyzer.checkOneFile(myJP2)
-                with open(nameJpylyzer, "w") as text_file:
-                    text_file.write(resultJpylyzer)
+                resultAsXML = ET.tostring(resultJpylyzer, 'UTF-8', 'xml')
+                f.write(resultAsXML)
+                f.close()
+                                
             except:
                 status="fail"
                 description="Error running jpylyzer"
