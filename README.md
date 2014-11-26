@@ -2,23 +2,13 @@
 Johan van der Knijff, KB/National Library of the Netherlands.
 
 ## What is *jprofile*?
-*Jprofile* is a simple tool for automated profiling of large batches of *JP2* images. Internally it wraps around [*jpylyzer*](http://www.openplanetsfoundation.org/software/jpylyzer), which is used for validating each image and for extracting its properties. The *jpylyzer* output is then validated against a set of [*Schematron*](http://en.wikipedia.org/wiki/Schematron) schemas that contain the required characteristics for master, access and target images, respectively. This is done through the [*Probatron4J*](http://www.probatron.org/) validator, which is wrapped inside *jprofile* as well.
-
-## Dependencies
-You will need *Java* 5 or more recent for running *Probatron4J*. (This is based on *Probatron4J*'s documentation. Some tests indicate possible misbehaviour under *Java* 5;  *Java* 6 appears to work fine.) All other dependencies ([*jpylyzer*](http://www.openplanetsfoundation.org/software/jpylyzer), [*Probatron*](http://www.probatron.org/)) are included with *jprofile*. The *Probatron* *JAR* file was taken from:
-
-[http://www.probatron.org/probatron4j.html](ttp://www.probatron.org/probatron4j.html)
-
-*Probatron4J*'s source code is available here:
-
-[http://code.google.com/p/probatron4j/source/browse/#svn/trunk/](http://code.google.com/p/probatron4j/source/browse/#svn/trunk/)
+*Jprofile* is a simple tool for automated profiling of large batches of *JP2* images. Internally it wraps around [*jpylyzer*](http://jpylyzer.openpreservation.org/), which is used for validating each image and for extracting its properties. The *jpylyzer* output is then validated against a set of [*Schematron*](http://en.wikipedia.org/wiki/Schematron) schemas that contain the required characteristics for master, access and target images, respectively. 
 
 ## Licensing
-*Jprofile* is released under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0). [*Probatron*](http://www.probatron.org/) is released under the [GNU Affero 3.0 license](http://www.gnu.org/licenses/agpl-3.0.html).
+*Jprofile* is released under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0).
 
 ## Installation
-Just unzip the contents of *jprofile_x.y.z_win32.zip* to any empty directory. Then open the configuration file ('*config.xml*') in a text editor and update the value of *java* to the location of *java* on your PC if needed.
-
+Just unzip the contents of *jprofile_x.y.z_win32.zip* to any empty directory.
 
 ## Command-line syntax
 
@@ -66,9 +56,9 @@ It is possible to create custom-made profiles. Just add them to the *profiles* d
       
 
 ## Schemas
-The quality assessment is based on a number of rules/tests that are defined a set of *Schematron* schemas. These are located in the *schemas* folder in the installation directory. In principe *any* property that is reported by *jpylyzer* can be used here, and new tests can be added by editing the schemas. More details on this can be found in [this blog post](http://www.openplanetsfoundation.org/blogs/2012-09-04-automated-assessment-jp2-against-technical-profile).  
+The quality assessment is based on a number of rules/tests that are defined a set of *Schematron* schemas. These are located in the *schemas* folder in the installation directory. In principe *any* property that is reported by *jpylyzer* can be used here, and new tests can be added by editing the schemas. More details on this can be found in [this blog post](http://www.openpreservation.org/blogs/2012-09-04-automated-assessment-jp2-against-technical-profile).  
  
-###Available schemas
+### Available schemas
 | Name|Description|
 | ------| -----:|
 | kbMaster.sch|Generic schema for losslessly-compressed master images |
@@ -86,7 +76,7 @@ It is possible to create custom-made schemas. Just add them to the *schemas* dir
 
 ## Usage examples
 
-###List available profiles
+### List available profiles
 
 `jprofile d:\myBatch mybatch -l`
 
@@ -155,15 +145,13 @@ Here, the outcome of test *isValidJP2* means that the image does not conform to 
 
 Other than that, the organisation of images may follow any arbitrary directory structure (*jprofile* does a recursive scan of whole directory tree of a batch)
 
-##Known limitations
-- *Jprofile* currently only runs under Windows
+## Known limitations
 - Code is currently not compatible with *Python 3* (tested under *Python 2.7*; *Windows* executables are completely stand-alone).
 - Images that have names containing square brackets ("[" and "]" are ignored (limitation of *Python*'s *glob* module, will be solved in the future).
 
-##Useful links
-- [*jpylyzer*](http://www.openplanetsfoundation.org/software/jpylyzer)
+## Useful links
+- [*jpylyzer*](http://jpylyzer.openpreservation.org/)
 - [*Schematron*](http://en.wikipedia.org/wiki/Schematron)
-- [*Probatron*](http://www.probatron.org/)
 - [Automated assesment of JP2 against a technical profile using jpylyzer and Schematron](http://www.openplanetsfoundation.org/blogs/2012-09-04-automated-assessment-jp2-against-technical-profile)
 
 

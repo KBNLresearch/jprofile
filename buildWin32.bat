@@ -30,18 +30,15 @@ del temp.txt
 :: Build binaries
 %python% %pathPyInstaller%\build.py %scriptBaseName%.spec
 
-:: Create probatron, doc profiles and schemas dirs in dist dir
-md .\dist\%scriptBaseName%\probatron
+:: Create doc, profiles and schemas dirs in dist dir
 md .\dist\%scriptBaseName%\doc
 md .\dist\%scriptBaseName%\profiles
 md .\dist\%scriptBaseName%\schemas
 
 :: Copy files to dist directory
-copy /Y .\probatron\* .\dist\%scriptBaseName%\probatron\
 copy /Y .\doc\* .\dist\%scriptBaseName%\doc\
 copy /Y .\profiles\* .\dist\%scriptBaseName%\profiles\
 copy /Y .\schemas\* .\dist\%scriptBaseName%\schemas\
-copy /Y .\config.xml .\dist\%scriptBaseName%\config.xml
 
 :: Create doc directory in dist directory
 md .\dist\%scriptBaseName%\doc
