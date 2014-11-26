@@ -313,10 +313,6 @@ def main():
     # Get schema loctions from profile
     schemaMaster,schemaAccess,schemaTarget=readProfile(profile)
     
-    # File names for temporary jpylyzer and Probatron output files
-    nameJpylyzer="_jpylyzer_temp_.xml"
-    nameProbatron="_probatron_temp_.xml"
-    
     # Set line separator for output/ log files to OS default
     lineSep=os.linesep
   
@@ -350,11 +346,7 @@ def main():
         
         # Initialise empty text string for error log output
         ptOutString=""
-        
-        # Remove any previous instances of jpylyzer/probatron output files
-        removeFile(nameJpylyzer)
-        removeFile(nameProbatron)
-                
+                        
         # Create list that contains all file ptath components (dir names)
         pathComponents=getPathComponentsAsList(myJP2)
                 
@@ -377,13 +369,8 @@ def main():
             
             #Run jpylyzer on image and write result to text file
             try:
-                # Set encoding to UTF-8
-                f = codecs.open(nameJpylyzer, "w", config.UTF8_ENCODING, "replace")
                 resultJpylyzer=jpylyzer.checkOneFile(myJP2)
-                resultAsXML = ET.tostring(resultJpylyzer, 'UTF-8', 'xml')
-                f.write(resultAsXML)
-                f.close()
-                                
+                resultAsXML = ET.tostring(resultJpylyzer, 'UTF-8', 'xml')                                
             except:
                 status="fail"
                 description="Error running jpylyzer"
@@ -394,24 +381,17 @@ def main():
             
                 # Note we're using lxml.etree here rather than elementtree (yes, it's confusing!)
                 sct_doc = etree.parse(f)
-                schematron = isoschematron.Schematron(sct_doc, store_xslt = True, store_report = True)
+                schematron = isoschematron.Schematron(sct_doc, store_report = True)
                 #schematron = isoschematron.Schematron(sct_doc)
                 
-                # Reparsing XML with lxml since using ET object directly doesn't work 
-                resultJpylyzer = etree.fromstring(resultAsXML)
+                # Reparsing XML with lxml since using ET object directly doesn't work
+                resultJpylyzerLXML = etree.fromstring(resultAsXML)
                 
                 # Validate jpylyzer output against schema                
-                schemaValidationResult = schematron.validate(resultJpylyzer)
-                report = isoschematron.Schematron.validation_report
-                xslt = isoschematron.Schematron.validator_xslt
+                schemaValidationResult = schematron.validate(resultJpylyzerLXML)
                 f.close()
-                print(schemaValidationResult)
-                #print(dir(report.__doc__.title))
-                #print(report(docstr))
-                print(dir(xslt.__doc__))
-                
-                #print(dir(report.__doc__))
-                
+                report = schematron.validation_report
+                               
             except:
                 status="fail"
                 description="Schematron validation resulted in an error"
@@ -419,12 +399,8 @@ def main():
             
             # Parse output of Schematron validation and extract interesting bits
             try:
-                
-                #tree=ET.parse(nameProbatron)
-                #root = tree.getroot()
-                
+                               
                 reportAsXML = etree.tostring(report)
-                print(reportAsXML)
                             
                 #for elem in root.iter():
                 for elem in report.iter():
@@ -449,11 +425,14 @@ def main():
             # Parse jpylyzer XML output and extract info on failed tests in case
             # image is not valid JP2
             try:
-                tree=ET.parse(nameJpylyzer)
-                root = tree.getroot()
+                #tree=ET.parse(nameJpylyzer)
+                tree = resultJpylyzer
+                root = resultJpylyzer.getroot()
+                #validationOutcome=root.find("isValidJP2").text
                 validationOutcome=root.find("isValidJP2").text
                                 
                 if validationOutcome=="False":
+                    #testsElt=root.find('tests')
                     testsElt=root.find('tests')
                     ptOutString += "*** Jpylyzer JP2 validation errors:" +lineSep
                     # Jpylyzer errors reported as raw XML, this a bit ugly but works.
@@ -469,7 +448,8 @@ def main():
                             ptOutString += "Test " + i.tag + " failed" + lineSep
                             
             except:
-                pass
+                description="Error processing Jpylyzer output"
+                ptOutString +=description + lineSep
                                                         
         if status=="fail":
 
@@ -488,11 +468,7 @@ def main():
     # Close output files
     fStatus.close()
     fFailed.close()
-    
-    # Remove jpylyzer/probatron output files
-    removeFile(nameJpylyzer)
-    removeFile(nameProbatron)
-    
+        
     print("jprofile ended: " + time.asctime())
     
     # Elapsed time (seconds)

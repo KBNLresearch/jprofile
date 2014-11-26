@@ -1,10 +1,10 @@
-# Example adapted from http://lxml.de/validation.html#id2
 import StringIO
 from lxml import isoschematron
 from lxml import etree
 
 def main():
-        
+    # Example adapted from http://lxml.de/validation.html#id2
+
     # Schema
     f = StringIO.StringIO('''\
     <schema xmlns="http://purl.oclc.org/dsdl/schematron" >
@@ -20,7 +20,7 @@ def main():
     # Parse schema
     sct_doc = etree.parse(f)
     schematron = isoschematron.Schematron(sct_doc, store_report = True)
-    
+
     # XML to validate - validation will fail because sum of numbers not equal to 100 
     notValid = StringIO.StringIO('''\
         <Total>
@@ -31,18 +31,16 @@ def main():
         ''')
     # Parse xml
     doc = etree.parse(notValid)
-    
+
     # Validate against schema
     validationResult = schematron.validate(doc)
-        
+
     # Validation report (assuming here this is where reason 
     # for validation failure is stored, but perhaps I'm wrong?)
-    report = isoschematron.Schematron.validation_report
-    
+    report = schematron.validation_report
+
     print("is valid: " + str(validationResult))
-    print(dir(report.__doc__))
-    
+    print(type(report))
+    print(report)
 
 main()
-
-
