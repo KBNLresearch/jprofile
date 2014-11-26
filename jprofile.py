@@ -7,7 +7,7 @@
 #
 # Requires Python v. 2.7 
 #
-# Copyright 2013 Johan van der Knijff, KB/National Library of the Netherlands
+# Copyright 2013, 2014 Johan van der Knijff, KB/National Library of the Netherlands
 #
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@
 #
 # Preconditions:
 #
-# - Tool is run on a Windows-platform
 # - All images that are to be analysed have a .jp2 extension (all others are ignored!)
 # - Parent directory of master images is called 'master' (may be in subdirectory)
 # - Parent directory of access images is called 'access' (may be in subdirectory)
@@ -34,7 +33,7 @@
 # (this tool does a recursive scan of whole directory tree of a batch)
 
 
-__version__= "0.4.1"
+__version__= "0.5.0"
 
 import sys
 import os
@@ -312,12 +311,12 @@ def main():
                 ptOutString +=description + lineSep
              
             try:
+                # Possible improvement: load all schemas at startup to avoid unnecessary I/O
                 f = open(mySchema, 'r')
             
                 # Note we're using lxml.etree here rather than elementtree (yes, it's confusing!)
                 sct_doc = etree.parse(f)
                 schematron = isoschematron.Schematron(sct_doc, store_report = True)
-                #schematron = isoschematron.Schematron(sct_doc)
                 
                 # Reparsing XML with lxml since using ET object directly doesn't work
                 resultJpylyzerLXML = etree.fromstring(resultAsXML)
@@ -354,24 +353,17 @@ def main():
                                ptOutString +=description + ")" + lineSep
             except Exception:
                 status="fail"
-                description="Error processing Probatron output"
+                description="Error processing Schematron output"
                 ptOutString +=description + lineSep
             
             # Parse jpylyzer XML output and extract info on failed tests in case
             # image is not valid JP2
             try:
-                #tree=ET.parse(nameJpylyzer)
-                tree = resultJpylyzer
-                root = resultJpylyzer.getroot()
-                #validationOutcome=root.find("isValidJP2").text
-                validationOutcome=root.find("isValidJP2").text
+                validationOutcome=resultJpylyzer.find("isValidJP2").text
                                 
                 if validationOutcome=="False":
-                    #testsElt=root.find('tests')
-                    testsElt=root.find('tests')
+                    testsElt=resultJpylyzer.find('tests')
                     ptOutString += "*** Jpylyzer JP2 validation errors:" +lineSep
-                    # Jpylyzer errors reported as raw XML, this a bit ugly but works.
-                    #ptOutString += ET.tostring(testsElt, encoding="ascii", method="xml") + lineSep
                 
                     # Iterate over tests element and report names of all tags that
                     # correspond to tests that failed
@@ -383,6 +375,7 @@ def main():
                             ptOutString += "Test " + i.tag + " failed" + lineSep
                             
             except:
+                status="fail"
                 description="Error processing Jpylyzer output"
                 ptOutString +=description + lineSep
                                                         
@@ -395,7 +388,6 @@ def main():
             
         statusLine=myJP2 +"," + status + lineSep
         
-        #f_out.write(bytes(s, 'UTF-8'))
         fStatus.write(statusLine)
     
     end = time.clock()
