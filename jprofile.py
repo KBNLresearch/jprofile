@@ -47,6 +47,8 @@ import subprocess as sub
 import jpylyzer
 import config
 import codecs
+from lxml import isoschematron
+from lxml import etree
 
 def main_is_frozen():
     return (hasattr(sys, "frozen") or # new py2exe
@@ -198,9 +200,9 @@ def readProfile(profile):
     
     # HACK: Probatron exits with URL Exception if schema is a  standard (full) file path,
     # this makes it work (at least under Windows)
-    schemaMaster="file:///" + schemaMaster
-    schemaAccess="file:///" +schemaAccess
-    schemaTarget="file:///" +schemaTarget
+    #schemaMaster="file:///" + schemaMaster
+    #schemaAccess="file:///" +schemaAccess
+    #schemaTarget="file:///" +schemaTarget
     
     return(schemaMaster,schemaAccess,schemaTarget)
 
@@ -387,30 +389,45 @@ def main():
                 description="Error running jpylyzer"
                 ptOutString +=description + lineSep
              
-            # Construct Probatron command line according to:
-            # %java% -jar %probatron% dpo_colour_00990_master_jp2.xml %schemaMaster% > resultMasterOK.xml
-            
-            ptSysString=java + " -jar " + probatronApp + " " + '"' + nameJpylyzer + '"' + " " \
-                        + mySchema
-            
-            # Run Probatron, result to file
             try:
-                ptExitStatus,ptStdOut,ptStdErr=launchSubProcess(ptSysString)
+                f = open(mySchema, 'r')
             
-                with open(nameProbatron, "w") as text_file:
-                    text_file.write(ptStdOut)
+                # Note we're using lxml.etree here rather than elementtree (yes, it's confusing!)
+                sct_doc = etree.parse(f)
+                schematron = isoschematron.Schematron(sct_doc, store_xslt = True, store_report = True)
+                #schematron = isoschematron.Schematron(sct_doc)
+                
+                # Reparsing XML with lxml since using ET object directly doesn't work 
+                resultJpylyzer = etree.fromstring(resultAsXML)
+                
+                # Validate jpylyzer output against schema                
+                schemaValidationResult = schematron.validate(resultJpylyzer)
+                report = isoschematron.Schematron.validation_report
+                xslt = isoschematron.Schematron.validator_xslt
+                f.close()
+                print(schemaValidationResult)
+                #print(dir(report.__doc__.title))
+                #print(report(docstr))
+                print(dir(xslt.__doc__))
+                
+                #print(dir(report.__doc__))
+                
             except:
                 status="fail"
-                description="Error running Probatron"
+                description="Schematron validation resulted in an error"
                 ptOutString +=description + lineSep
             
-            # Parse Probatron XML output and extract interesting bits
+            # Parse output of Schematron validation and extract interesting bits
             try:
                 
-                tree=ET.parse(nameProbatron)
-                root = tree.getroot()
+                #tree=ET.parse(nameProbatron)
+                #root = tree.getroot()
+                
+                reportAsXML = etree.tostring(report)
+                print(reportAsXML)
                             
-                for elem in root.iter():
+                #for elem in root.iter():
+                for elem in report.iter():
                     if elem.tag == "{http://purl.oclc.org/dsdl/svrl}failed-assert":
                         
                         status="fail"
