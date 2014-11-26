@@ -130,33 +130,6 @@ def parseCommandLine():
     
     return(args)
 
-def getConfiguration(configFile):
-
-    # What is the location of this script?
-    appPath=os.path.abspath(get_main_dir())
-
-    # Parse XML tree
-    try:
-        tree = ET.parse(configFile)
-        config = tree.getroot()
-    except Exception:
-        msg="error parsing " + configFile
-        errorExit(msg)
-    
-    # Locate configuration elements
-    javaElement=config.find("java")
-    
-    # Get corresponding text values
-    java=os.path.normpath(javaElement.text)
-    probatronApp=addPath(appPath + "/probatron/","probatron.jar")
-        
-    # Check if all files exist, and exit if not
-    checkFileExists(java)
-    checkFileExists(probatronApp)
-            
-    return(java,probatronApp)
-
-
 def listProfiles(profilesDir):
     profileNames=os.listdir(profilesDir)
     
@@ -164,7 +137,6 @@ def listProfiles(profilesDir):
         print(profileNames[i])
     sys.exit()
     
-
 def readProfile(profile):
        
     # What is the location of this script?
@@ -197,37 +169,8 @@ def readProfile(profile):
     checkFileExists(schemaMaster)
     checkFileExists(schemaAccess)
     checkFileExists(schemaTarget)
-    
-    # HACK: Probatron exits with URL Exception if schema is a  standard (full) file path,
-    # this makes it work (at least under Windows)
-    #schemaMaster="file:///" + schemaMaster
-    #schemaAccess="file:///" +schemaAccess
-    #schemaTarget="file:///" +schemaTarget
-    
+       
     return(schemaMaster,schemaAccess,schemaTarget)
-
-
-def launchSubProcess(systemString):
-    # Launch subprocess and return exit code, stdout and stderr
-    try:
-        # Execute command line; stdout + stderr redirected to objects
-        # 'output' and 'errors'.
-        p = sub.Popen(systemString,stdout=sub.PIPE,stderr=sub.PIPE)
-        output, errors = p.communicate()
-                
-        # Decode to UTF8
-        outputAsString=output.decode('utf-8')
-        errorsAsString=errors.decode('utf-8')
-                
-        exitStatus=p.returncode
-  
-    except Exception:
-        # I don't even want to start thinking how one might end up here ...
-        exitStatus=-99
-        outputAsString=""
-        errorsAsString=""
-    
-    return exitStatus,outputAsString,errorsAsString
 
 def getFilesFromTree(rootDir, extensionString):
     # Walk down whole directory tree (including all subdirectories)
@@ -279,13 +222,7 @@ def main():
     
     # What is the location of this script/executable
     appPath=os.path.abspath(get_main_dir())
-    
-    # Configuration file
-    configFile=os.path.abspath(appPath + "/config.xml")
-    
-    # Check if config file exists, and exit if not
-    checkFileExists(configFile)
-    
+        
     # Profiles dir
     profilesDir= os.path.abspath(appPath + "/profiles/")
 
@@ -307,8 +244,6 @@ def main():
         if profile == None:
             errorExit("no profile specified!") 
                
-    # Get Java location from config file 
-    java,probatronApp=getConfiguration(configFile)
         
     # Get schema loctions from profile
     schemaMaster,schemaAccess,schemaTarget=readProfile(profile)
