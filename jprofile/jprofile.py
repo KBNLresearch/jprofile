@@ -117,9 +117,8 @@ def parseCommandLine():
     # Add arguments
     parser.add_argument('batchDir', action="store", help="batch directory")
     parser.add_argument('prefixOut', action="store", help="prefix of output files")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('-p','--profile', action="store", help="name of profile that defines schemas for master, access and target images")
-    group.add_argument('-l', '--listprofiles', action="store_true")
+    parser.add_argument('-p','--profile', action="store", help='name of profile that defines schemas for master, access and target images. \
+    Type "l" or "list" to view all available profiles')
    
     # Parse arguments
     args=parser.parse_args()
@@ -234,17 +233,11 @@ def main():
     batchDir=args.batchDir
     prefixOut=args.prefixOut
     
-    if args.listprofiles:
-            
+    profile=args.profile
+    if profile in["l","list"]:
         listProfiles(profilesDir)
-        
-    else:
-        profile=args.profile
-        if profile == None:
-            errorExit("no profile specified!") 
-               
-        
-    # Get schema loctions from profile
+                 
+    # Get schema locations from profile
     schemaMaster,schemaAccess,schemaTarget=readProfile(profile)
     
     # Set line separator for output/ log files to OS default
