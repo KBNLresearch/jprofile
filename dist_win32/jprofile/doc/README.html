@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>README</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: d5e7ce436666e7d4a2eeb12e7f8261dacceb3565 */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+.markdown-body img {
+  max-width: 100%
+}
+</style>
+
+</head>
+<body>
+<h1>Jprofile</h1>
+<p>Johan van der Knijff, KB/National Library of the Netherlands.</p>
+<h2>What is <em>jprofile</em>?</h2>
+<p><em>Jprofile</em> is a simple tool for automated profiling of large batches of <em>JP2</em> images. Internally it wraps around <a href="http://www.openplanetsfoundation.org/software/jpylyzer"><em>jpylyzer</em></a>, which is used for validating each image and for extracting its properties. The <em>jpylyzer</em> output is then validated against a set of <a href="http://en.wikipedia.org/wiki/Schematron"><em>Schematron</em></a> schemas that contain the required characteristics for master, access and target images, respectively. This is done through the <a href="http://www.probatron.org/"><em>Probatron4J</em></a> validator, which is wrapped inside <em>jprofile</em> as well.</p>
+<h2>Dependencies</h2>
+<p>You will need <em>Java</em> 5 or more recent for running <em>Probatron4J</em>. (This is based on <em>Probatron4J</em>'s documentation. Some tests indicate possible misbehaviour under <em>Java</em> 5;  <em>Java</em> 6 appears to work fine.) All other dependencies (<a href="http://www.openplanetsfoundation.org/software/jpylyzer"><em>jpylyzer</em></a>, <a href="http://www.probatron.org/"><em>Probatron</em></a>) are included with <em>jprofile</em>. The <em>Probatron</em> <em>JAR</em> file was taken from:</p>
+<p><a href="ttp://www.probatron.org/probatron4j.html">http://www.probatron.org/probatron4j.html</a></p>
+<p><em>Probatron4J</em>'s source code is available here:</p>
+<p><a href="http://code.google.com/p/probatron4j/source/browse/#svn/trunk/">http://code.google.com/p/probatron4j/source/browse/#svn/trunk/</a></p>
+<h2>Licensing</h2>
+<p><em>Jprofile</em> is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a>. <a href="http://www.probatron.org/"><em>Probatron</em></a> is released under the <a href="http://www.gnu.org/licenses/agpl-3.0.html">GNU Affero 3.0 license</a>.</p>
+<h2>Installation</h2>
+<p>Just unzip the contents of <em>jprofile_x.y.z_win32.zip</em> to any empty directory. Then open the configuration file ('<em>config.xml</em>') in a text editor and update the value of <em>java</em> to the location of <em>java</em> on your PC if needed.</p>
+<h2>Command-line syntax</h2>
+<p><code>usage: jprofile batchDir prefixOut [-p PROFILE | -l]</code></p>
+<h2>Positional arguments</h2>
+<p><strong>batchDir</strong>: root directory of batch  </p>
+<p><strong>prefixOut</strong>: prefix that is used for writing output files</p>
+<p><strong>PROFILE</strong>: name of profile that defines schemas for master, access and target images </p>
+<p>Use the <em>-l</em> switch to list all available profiles (the <em>-p</em> and <em>-l</em> switches are mutually exclusive, i.e. you can use only one of them at the same time).</p>
+<h2>Profiles</h2>
+<p>A <em>profile</em> is an <em>XML</em>-formatted file that simply defines which schemas are used to validate <em>jpylyzer</em>'s output for master, access and target images, respectively. Here's an example:</p>
+<pre><code>&lt;profile&gt;
+
+&lt;!-- Sample profile --&gt;
+
+&lt;schemaMaster&gt;master300Gray.sch&lt;/schemaMaster&gt;
+&lt;schemaAccess&gt;access150Colour.sch&lt;/schemaAccess&gt;
+&lt;schemaTarget&gt;master300Colour.sch&lt;/schemaTarget&gt;
+
+&lt;/profile&gt;
+</code></pre>
+
+<p>Note that each entry only contains the <em>name</em> of a profile, not its full path! All profiles are located in the <em>profiles</em> directory in the installation folder.</p>
+<h3>Available profiles</h3>
+<p>The following profiles are included by default:</p>
+<table>
+<thead>
+<tr>
+	<th>Name</th>
+	<th align="right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>kb_bt300.xml</td>
+	<td align="right">Books and periodicals, master digitised at 300 ppi</td>
+</tr>
+<tr>
+	<td>kb_bt600.xml</td>
+	<td align="right">Books and periodicals, master digitised at 600 ppi</td>
+</tr>
+<tr>
+	<td>kb_kranten.xml</td>
+	<td align="right">Newspapers</td>
+</tr>
+<tr>
+	<td>kb_micro.xml</td>
+	<td align="right">Microfilm</td>
+</tr>
+</tbody>
+</table>
+<p>It is possible to create custom-made profiles. Just add them to the <em>profiles</em> directory in the installation folder.</p>
+<h2>Schemas</h2>
+<p>The quality assessment is based on a number of rules/tests that are defined a set of <em>Schematron</em> schemas. These are located in the <em>schemas</em> folder in the installation directory. In principe <em>any</em> property that is reported by <em>jpylyzer</em> can be used here, and new tests can be added by editing the schemas. More details on this can be found in <a href="http://www.openplanetsfoundation.org/blogs/2012-09-04-automated-assessment-jp2-against-technical-profile">this blog post</a>.  </p>
+<h3>Available schemas</h3>
+<table>
+<thead>
+<tr>
+	<th>Name</th>
+	<th align="right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>kbMaster.sch</td>
+	<td align="right">Generic schema for losslessly-compressed master images</td>
+</tr>
+<tr>
+	<td>master300Colour.sch</td>
+	<td align="right">Schema for losslessly-compressed master images, 300 ppi, Adobe RGB (1998) colour space</td>
+</tr>
+<tr>
+	<td>master600Colour.sch</td>
+	<td align="right">Schema for losslessly-compressed master images, 600 ppi, Adobe RGB (1998) colour space</td>
+</tr>
+<tr>
+	<td>master300Gray.sch</td>
+	<td align="right">Schema for losslessly-compressed master images, 300 ppi, Gray Gamma 2.2 colour space</td>
+</tr>
+<tr>
+	<td>master600Gray.sch</td>
+	<td align="right">Schema for losslessly-compressed master images, 600 ppi, Gray Gamma 2.2 colour space</td>
+</tr>
+<tr>
+	<td>kbAccess.sch</td>
+	<td align="right">Generic schema for lossily-compressed access images</td>
+</tr>
+<tr>
+	<td>access150Colour.sch</td>
+	<td align="right">Schema for lossily-compressed access images, 150 ppi, Adobe RGB (1998) colour space</td>
+</tr>
+<tr>
+	<td>access300Colour.sch</td>
+	<td align="right">Schema for lossily-compressed access images, 300 ppi, Adobe RGB (1998) colour space</td>
+</tr>
+<tr>
+	<td>access150Gray.sch</td>
+	<td align="right">Schema for lossily-compressed access images, 150 ppi, Gray Gamma 2.2 colour space</td>
+</tr>
+<tr>
+	<td>access300Gray.sch</td>
+	<td align="right">Schema for lossily-compressed access images, 300 ppi, Gray Gamma 2.2 colour space</td>
+</tr>
+</tbody>
+</table>
+<p>It is possible to create custom-made schemas. Just add them to the <em>schemas</em> directory in the installation folder.</p>
+<h2>Usage examples</h2>
+<h3>List available profiles</h3>
+<p><code>jprofile d:\myBatch mybatch -l</code></p>
+<p>This results in a list of all available profiles (these are stored in the installation folder's <em>profiles</em> directory):</p>
+<pre><code>kb_bt300.xml
+kb_bt600.xml
+kb_kranten.xml
+kb_micro.xml
+</code></pre>
+
+<h3>Analyse batch</h3>
+<p><code>jprofile d:\myBatch mybatch -p kb_bt300.xml</code></p>
+<p>This will result in the creation of 2 output files:</p>
+<ul>
+<li><code>mybatch_status.csv</code> (status output file)</li>
+<li><code>mybatch_failed.txt</code> (detailed output on images that failed quality asessment)</li>
+</ul>
+<h2>Status output file</h2>
+<p>This is a comma-separated file with the assessment status of each analysed image. The assessment status is either <em>pass</em> (passed all tests) or <em>fail</em> (failed one or more tests). Here's an example:</p>
+<pre>
+F:\test\access\MMKB03_000004896_00015_access.jp2,pass
+F:\test\access\MMKB03_000004896_00115_access.jp2,pass
+F:\test\access\MMKB03_000004896_00215_access.jp2,pass
+F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2,fail
+F:\test\master\MMKB03_000004896_00015_master.jp2,pass
+</pre> 
+<h2>Failure output file</h2>
+<p>Any image that failed one or more tests are reported in the failure output file. For each failed image, it contains a full reference to the file path, followed by the specific errors. An example:</p>
+<pre><code>F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2
+*** Schema validation errors:
+Test &quot;layers = '1'&quot; failed (wrong number of layers)
+Test &quot;transformation = '5-3 reversible'&quot; failed (wrong transformation)
+Test &quot;comment = 'KB_MASTER_LOSSLESS_21/01/2011'&quot; failed (wrong codestream comment string)
+####
+</code></pre>
+
+<p>Entries in this file are separated by a sequence of 4 '#' characters. Note that each line here corresponds to a failed test in the schema (this information is taken from <em>Probatron</em>'s output). For images that are identified as not-valid JP2 some additional information from <em>jpylyzer</em>'s output is included as well. For example:</p>
+<pre><code>F:\test\master\MMUBL07_MTF_GRAY_20121213_01_05.jp2
+*** Schema validation errors:
+Test &quot;isValidJP2 = 'True'&quot; failed (no valid JP2)
+*** Jpylyzer JP2 validation errors:
+Test methIsValid failed
+Test precIsValid failed
+Test approxIsValid failed
+Test foundNextTilePartOrEOC failed
+Test foundEOCMarker failed
+####
+</code></pre>
+
+<p>Here, the outcome of test <em>isValidJP2</em> means that the image does not conform to the <em>JP2</em> specification. The lines following 'Jpylyzer JP2 validation errors' lists the specific errors that were reported by <em>jpylyzer</em>. The meaning of these errors can be found in the <em>jpylyzer</em> User Manual.</p>
+<h2>Preconditions</h2>
+<ul>
+<li>All images that are to be analysed have a .jp2 extension (all others are ignored!)</li>
+<li><em>Master</em> images are located in a (subdirectory of a) directory called '<em>master</em>'</li>
+<li><em>Access</em> images are located in a (subdirectory of a) directory called '<em>access</em>'</li>
+<li><em>Target</em> images are located in a (subdirectory of a) directory called '<em>targets-jp2</em>'.</li>
+</ul>
+<p>Other than that, the organisation of images may follow any arbitrary directory structure (<em>jprofile</em> does a recursive scan of whole directory tree of a batch)</p>
+<h2>Known limitations</h2>
+<ul>
+<li><em>Jprofile</em> currently only runs under Windows</li>
+<li>Code is currently not compatible with <em>Python 3</em> (tested under <em>Python 2.7</em>; <em>Windows</em> executables are completely stand-alone).</li>
+<li>Images that have names containing square brackets (&quot;[&quot; and &quot;]&quot; are ignored (limitation of <em>Python</em>'s <em>glob</em> module, will be solved in the future).</li>
+</ul>
+<h2>Useful links</h2>
+<ul>
+<li><a href="http://www.openplanetsfoundation.org/software/jpylyzer"><em>jpylyzer</em></a></li>
+<li><a href="http://en.wikipedia.org/wiki/Schematron"><em>Schematron</em></a></li>
+<li><a href="http://www.probatron.org/"><em>Probatron</em></a></li>
+<li><a href="http://www.openplanetsfoundation.org/blogs/2012-09-04-automated-assessment-jp2-against-technical-profile">Automated assesment of JP2 against a technical profile using jpylyzer and Schematron</a></li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
