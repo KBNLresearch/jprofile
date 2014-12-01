@@ -10,17 +10,18 @@
 # Copyright 2013, 2014 Johan van der Knijff, KB/National Library of the Netherlands
 #
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Lesser General Public License for more details.
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 # Preconditions:
 #
@@ -170,6 +171,17 @@ def readProfile(profile):
        
     return(schemaMaster,schemaAccess,schemaTarget)
 
+def readAsLXMLElt(xmlFile):
+    # Parse XML file with lxml and return result as element object
+    # Not the same as Elementtree object!
+    
+    f = open(xmlFile, 'r')
+    # Note we're using lxml.etree here rather than elementtree (yes, it's confusing!)
+    resultAsLXMLElt = etree.parse(f)
+    f.close()
+    
+    return(resultAsLXMLElt)
+    
 def getFilesFromTree(rootDir, extensionString):
     # Walk down whole directory tree (including all subdirectories)
     # and return list of those files whose extension contains user defined string
@@ -240,6 +252,11 @@ def main():
     # Get schema locations from profile
     schemaMaster,schemaAccess,schemaTarget=readProfile(profile)
     
+    # Get schemas as lxml.etree elements
+    schemaMasterLXMLElt=readAsLXMLElt(schemaMaster)
+    schemaAccessLXMLElt=readAsLXMLElt(schemaAccess)
+    schemaTargetLXMLElt=readAsLXMLElt(schemaTarget)
+        
     # Set line separator for output/ log files to OS default
     lineSep=os.linesep
   
@@ -274,17 +291,17 @@ def main():
         # Initialise empty text string for error log output
         ptOutString=""
                         
-        # Create list that contains all file ptath components (dir names)
+        # Create list that contains all file path components (dir names)
         pathComponents=getPathComponentsAsList(myJP2)
                 
         # Select schema based on value of parentDir (master/access/targets-jp2)
         
         if "master" in pathComponents:
-            mySchema=schemaMaster
+            mySchema=schemaMasterLXMLElt
         elif "access" in pathComponents:
-            mySchema=schemaAccess
+            mySchema=schemaAccessLXMLElt
         elif "targets-jp2" in pathComponents: 
-            mySchema=schemaTarget
+            mySchema=schemaTargetLXMLElt
 
         else:
             schemaMatch=False
@@ -304,19 +321,15 @@ def main():
                 ptOutString +=description + lineSep
              
             try:
-                # Possible improvement: load all schemas at startup to avoid unnecessary I/O
-                f = open(mySchema, 'r')
-            
-                # Note we're using lxml.etree here rather than elementtree (yes, it's confusing!)
-                sct_doc = etree.parse(f)
-                schematron = isoschematron.Schematron(sct_doc, store_report = True)
+                # Start Schematron magic ...
+                schematron = isoschematron.Schematron(mySchema, store_report = True)
+                print(schematron)
                 
-                # Reparsing XML with lxml since using ET object directly doesn't work
+                # Reparse jpylyzer XML with lxml since using ET object directly doesn't work
                 resultJpylyzerLXML = etree.fromstring(resultAsXML)
                 
                 # Validate jpylyzer output against schema                
                 schemaValidationResult = schematron.validate(resultJpylyzerLXML)
-                f.close()
                 report = schematron.validation_report
                                
             except:
