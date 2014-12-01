@@ -323,7 +323,6 @@ def main():
             try:
                 # Start Schematron magic ...
                 schematron = isoschematron.Schematron(mySchema, store_report = True)
-                print(schematron)
                 
                 # Reparse jpylyzer XML with lxml since using ET object directly doesn't work
                 resultJpylyzerLXML = etree.fromstring(resultAsXML)
