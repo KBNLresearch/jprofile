@@ -5,7 +5,7 @@ Johan van der Knijff, KB/National Library of the Netherlands.
 *Jprofile* is a simple tool for automated profiling of large batches of *JP2* images. Internally it wraps around [*jpylyzer*](http://jpylyzer.openpreservation.org/), which is used for validating each image and for extracting its properties. The *jpylyzer* output is then validated against a set of [*Schematron*](http://en.wikipedia.org/wiki/Schematron) schemas that contain the required characteristics for master, access and target images, respectively. 
 
 ## Licensing
-*Jprofile* is released under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0).
+*Jprofile* is released under the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl.html).
 
 ## Installation
 Just unzip the contents of *jprofile_x.y.z_win32.zip* to any empty directory.
@@ -13,7 +13,7 @@ Just unzip the contents of *jprofile_x.y.z_win32.zip* to any empty directory.
 ## Command-line syntax
 
 `
-usage: jprofile batchDir prefixOut [-p PROFILE | -l]
+usage: jprofile batchDir prefixOut [-p PROFILE]
 `
 
 ## Positional arguments
@@ -24,7 +24,8 @@ usage: jprofile batchDir prefixOut [-p PROFILE | -l]
 
 **PROFILE**: name of profile that defines schemas for master, access and target images 
 
-Use the *-l* switch to list all available profiles (the *-p* and *-l* switches are mutually exclusive, i.e. you can use only one of them at the same time).
+To list all available profiles, use a value of *l* or *list* for *PROFILE*.
+
 
 ## Profiles
 A *profile* is an *XML*-formatted file that simply defines which schemas are used to validate *jpylyzer*'s output for master, access and target images, respectively. Here's an example:
@@ -78,17 +79,22 @@ It is possible to create custom-made schemas. Just add them to the *schemas* dir
 
 ### List available profiles
 
-`jprofile d:\myBatch mybatch -l`
+`jprofile d:\myBatch mybatch -p list`
 
 This results in a list of all available profiles (these are stored in the installation folder's *profiles* directory):
 
-    kb_bt300.xml
-    kb_bt600.xml
-    kb_kranten.xml
-    kb_micro.xml
+    kb_300Colour_2014.xml
+    kb_300Gray_2014.xml
+    kb_600Colour_2014.xml
+    kb_600Gray_2014.xml
+    kb_bt300_2011.xml
+    kb_bt600_2011.xml
+    kb_generic_2014.xml
+    kb_kranten_2011.xml
+    kb_micro_2011.xml
 
 ###Analyse batch
-`jprofile d:\myBatch mybatch -p kb_bt300.xml`
+`jprofile d:\myBatch mybatch -p kb_bt300_2011.xml`
 
 This will result in the creation of 2 output files:
 
@@ -135,18 +141,17 @@ Entries in this file are separated by a sequence of 4 '#' characters. Note that 
 
 Here, the outcome of test *isValidJP2* means that the image does not conform to the *JP2* specification. The lines following 'Jpylyzer JP2 validation errors' lists the specific errors that were reported by *jpylyzer*. The meaning of these errors can be found in the *jpylyzer* User Manual.
 
-
-
 ## Preconditions
+
 - All images that are to be analysed have a .jp2 extension (all others are ignored!)
 - *Master* images are located in a (subdirectory of a) directory called '*master*'
 - *Access* images are located in a (subdirectory of a) directory called '*access*'
 - *Target* images are located in a (subdirectory of a) directory called '*targets-jp2*'.
+- Either of the above directories may be missing.
 
 Other than that, the organisation of images may follow any arbitrary directory structure (*jprofile* does a recursive scan of whole directory tree of a batch)
 
 ## Known limitations
-- Code is currently not compatible with *Python 3* (tested under *Python 2.7*; *Windows* executables are completely stand-alone).
 - Images that have names containing square brackets ("[" and "]" are ignored (limitation of *Python*'s *glob* module, will be solved in the future).
 
 ## Useful links
