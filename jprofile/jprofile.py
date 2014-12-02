@@ -2,10 +2,10 @@
 #
 # JPEG 2000 Automated Quality Assessment Tool
 # Automated quality control of JP2 images for KB digitisation projects.
-# Wraps around jpylyzer and Probatron
+# Wraps around jpylyzer
 # Johan van der Knijff
 #
-# Requires Python v. 2.7 
+# Requires Python v. 2.7.x + lxml library; Python 3 may work (but not tested)
 #
 # Copyright 2013, 2014 Johan van der Knijff, KB/National Library of the Netherlands
 #
@@ -43,7 +43,6 @@ import shutil
 import time
 import argparse
 import xml.etree.ElementTree as ET
-import subprocess as sub
 import jpylyzer
 import config
 import codecs
