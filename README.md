@@ -13,7 +13,7 @@ Just unzip the contents of *jprofile_x.y.z_win32.zip* to any empty directory.
 ## Command-line syntax
 
 `
-usage: jprofile batchDir prefixOut [-p PROFILE]
+usage: jprofile batchDir prefixOut -p PROFILE
 `
 
 ## Positional arguments
@@ -28,15 +28,16 @@ To list all available profiles, use a value of *l* or *list* for *PROFILE*.
 
 
 ## Profiles
+
 A *profile* is an *XML*-formatted file that simply defines which schemas are used to validate *jpylyzer*'s output for master, access and target images, respectively. Here's an example:
 
     <profile>
     
     <!-- Sample profile -->
        
-    <schemaMaster>master300Gray.sch</schemaMaster>
-    <schemaAccess>access150Colour.sch</schemaAccess>
-    <schemaTarget>master300Colour.sch</schemaTarget>
+    <schemaMaster>master300Gray_2014.sch</schemaMaster>
+    <schemaAccess>access300Colour_2014.sch</schemaAccess>
+    <schemaTarget>master300Colour_2014.sch</schemaTarget>
     
     </profile>
 
@@ -48,13 +49,19 @@ The following profiles are included by default:
 
 | Name|Description|
 | ------| -----:|
-| kb_bt300.xml|Books and periodicals, master digitised at 300 ppi |
-| kb_bt600.xml|Books and periodicals, master digitised at 600 ppi |
-| kb_kranten.xml|Newspapers |
-| kb_micro.xml|Microfilm|
+|kb_generic_2014.xml|Generic profile for KB digitisation streams (doesn't include any checks on resolution or colour spaces!)|
+|kb_300Colour_2014.xml|As generic profile, but with additional requirements than resolution equals 300 ppi and colour space is Adobe RGB 1998|
+|kb_300Gray_2014.xml|As generic profile, but with additional requirements than resolution equals 300 ppi and colour space is Gray Gamma 2.2|
+|kb_600Colour_2014.xml|As generic profile, but with additional requirements than resolution equals 600 ppi and colour space is Adobe RGB 1998|
+|kb_600Gray_2014.xml|As generic profile, but with additional requirements than resolution equals 360 ppi and colour space is Gray Gamma 2.2|
+|kb_bt300_2011.xml|KB books and periodicals, master digitised at 300 ppi <sup>\*</sup>|
+|kb_bt600_2011.xml|KB books and periodicals, master digitised at 600 ppi <sup>\*</sup>|
+|kb_kranten_2011.xml|KB newspapers <sup>\*</sup>|
+|kb_micro_2011.xml|KB microfilms <sup>\*</sup>|
 
-It is possible to create custom-made profiles. Just add them to the *profiles* directory in the installation folder.
-      
+Profiles marked with <sup>\*</sup> in the table follow the KB's 2011 specifications; all other profiles follow the 2014 specifications. 
+
+It is possible to create custom-made profiles. Just add them to the *profiles* directory in the installation folder.   
 
 ## Schemas
 The quality assessment is based on a number of rules/tests that are defined a set of *Schematron* schemas. These are located in the *schemas* folder in the installation directory. In principe *any* property that is reported by *jpylyzer* can be used here, and new tests can be added by editing the schemas. More details on this can be found in [this blog post](http://www.openpreservation.org/blogs/2012-09-04-automated-assessment-jp2-against-technical-profile).  

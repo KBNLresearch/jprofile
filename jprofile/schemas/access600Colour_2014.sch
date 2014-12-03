@@ -39,6 +39,10 @@
       <s:assert test="(vRescInPixelsPerInch &gt; 599) and (vRescInPixelsPerInch &lt; 601)">wrong vertical capture resolution </s:assert>
       <s:assert test="(hRescInPixelsPerInch &gt; 599) and (hRescInPixelsPerInch &lt; 601)">wrong horizontal capture resolution </s:assert>
     </s:rule>
+    <!-- check that number of colour components equals 3 -->
+    <s:rule context="/jpylyzer/properties/jp2HeaderBox/imageHeaderBox">
+      <s:assert test="nC = '3'">wrong number of colour components</s:assert>
+    </s:rule>
     <!-- check that METH equals 'Restricted ICC' -->
     <s:rule context="/jpylyzer/properties/jp2HeaderBox/colourSpecificationBox">
       <s:assert test="meth = 'Restricted ICC'">METH not 'Restricted ICC'</s:assert>
