@@ -52,7 +52,7 @@ Note that each entry only contains the *name* of a profile, not its full path! A
 The following profiles are included by default:
 
 | Name|Description|
-| ------| -----:|
+| :------| :-----|
 |kb_generic_2014.xml|Generic profile for KB digitisation streams (doesn't include any checks on resolution or colour spaces!)|
 |kb_300Colour_2014.xml|As generic profile, but with additional requirements than resolution equals 300 ppi and colour space is Adobe RGB 1998|
 |kb_300Gray_2014.xml|As generic profile, but with additional requirements than resolution equals 300 ppi and colour space is Gray Gamma 2.2|
@@ -73,7 +73,7 @@ The quality assessment is based on a number of rules/tests that are defined a se
 ## Available schemas
 
 | Name|Description|
-| ------| -----:|
+|:------| :-----|
 |kbMaster_2014.sch|Generic schema for losslessly-compressed master images according to 2014 specifications|
 |master600Colour_2014.sch|Schema for losslessly-compressed master images, 600 ppi, Adobe RGB (1998) colour space|
 |master600Gray_2014.sch|Schema for losslessly-compressed master images, 600 ppi, Gray Gamma 2.2 colour space|
