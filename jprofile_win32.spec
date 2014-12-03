@@ -13,7 +13,6 @@ exe = EXE(pyz,
           upx=True,
           console=True )
 
-doc_tree = Tree('./doc', prefix = 'doc')
 profiles_tree = Tree('./jprofile/profiles', prefix = 'profiles')
 schemas_tree = Tree('./jprofile/schemas', prefix = 'schemas')
 # Following is an ugly hack, because these lxml files aren't packaged correctly by default
@@ -23,7 +22,6 @@ coll = COLLECT(exe,
                a.binaries +
                [('./license/LICENSE.txt','LICENSE','DATA')],
                resources_tree,
-               doc_tree,
                profiles_tree,
                schemas_tree,
                a.zipfiles,

@@ -25,6 +25,9 @@ set python=c:\python27_32bit\python
 :: Path to PyInstaller
 set pathPyInstaller=c:\pyinstall\
 
+:: Path to 7-zip command-line tool
+set zipCommand="C:\Program Files\7-Zip\7z"
+
 :: Script base name (i.e. script name minus .py extension)
 set scriptBaseName=jprofile
 
@@ -50,6 +53,7 @@ del temp.txt
 set zipName=%scriptBaseName%_%version%_win32.zip
 
 :: Create ZIP file
+%zipCommand% a -r %distDir%\%zipName% %distDir%\%scriptBaseName%
 :: disabled for now as zipdir doesn't properly handle nested dir with xslt stuff
 ::%python% .\zipdir.py %distDir%\%scriptBaseName% %distDir%\%zipName% 
 
@@ -59,7 +63,7 @@ set zipName=%scriptBaseName%_%version%_win32.zip
 rmdir build /S /Q
 
 :: Delete jprofile directory in distdir
-::rmdir %distDir%\%scriptBaseName% /S /Q
+rmdir %distDir%\%scriptBaseName% /S /Q
 
 ::::::::: PARTY TIME! ::::::::::::::::: 
 
