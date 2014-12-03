@@ -10,6 +10,10 @@ Johan van der Knijff, KB/National Library of the Netherlands.
 
 *Jprofile* is released under the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl.html).
 
+## Dependencies
+
+*Jprofile* uses the [lxml](http://lxml.de/) toolkit. You need to install this to run the software in Python. The Windows binaries of *jprofile* are completely stand-alone, and don't require the installation of lxml (or anything else).
+
 ## Installation
 
 Just unzip the contents of *jprofile_x.y.z_win32.zip* to any empty directory.
