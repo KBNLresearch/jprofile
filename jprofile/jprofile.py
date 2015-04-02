@@ -156,22 +156,28 @@ def readProfile(profile):
     # Locate schema elements
     schemaMasterElement=prof.find("schemaMaster")
     schemaAccessElement=prof.find("schemaAccess")
-    schemaTargetElement=prof.find("schemaTarget")
-    schemaTargetAccessElement=prof.find("schemaTargetAccess")
+    schemaTargetRGBElement=prof.find("schemaTargetRGB")
+    schemaTargetGrayElement=prof.find("schemaTargetGray")
+    schemaTargetAccessRGBElement=prof.find("schemaTargetAccessRGB")
+    schemaTargetAccessGrayElement=prof.find("schemaTargetAccessGray")
     
     # Get corresponding text values
     schemaMaster=addPath(appPath + "/schemas/",schemaMasterElement.text)
     schemaAccess= addPath(appPath + "/schemas/",schemaAccessElement.text)
-    schemaTarget= addPath(appPath + "/schemas/",schemaTargetElement.text)
-    schemaTargetAccess= addPath(appPath + "/schemas/",schemaTargetAccessElement.text) 
+    schemaTargetRGB= addPath(appPath + "/schemas/",schemaTargetRGBElement.text)
+    schemaTargetGray= addPath(appPath + "/schemas/",schemaTargetGrayElement.text)
+    schemaTargetAccessRGB= addPath(appPath + "/schemas/",schemaTargetAccessRGBElement.text) 
+    schemaTargetAccessGray= addPath(appPath + "/schemas/",schemaTargetAccessGrayElement.text) 
     
     # Check if all files exist, and exit if not
     checkFileExists(schemaMaster)
     checkFileExists(schemaAccess)
-    checkFileExists(schemaTarget)
-    checkFileExists(schemaTargetAccess)
+    checkFileExists(schemaTargetRGB)
+    checkFileExists(schemaTargetGray)
+    checkFileExists(schemaTargetAccessRGB)
+    checkFileExists(schemaTargetAccessGray)
        
-    return(schemaMaster,schemaAccess,schemaTarget,schemaTargetAccess)
+    return(schemaMaster,schemaAccess,schemaTargetRGB,schemaTargetGray,schemaTargetAccessRGB,schemaTargetAccessGray)
 
 def readAsLXMLElt(xmlFile):
     # Parse XML file with lxml and return result as element object
@@ -228,7 +234,7 @@ def getPathComponentsAsList(path):
             break
 
     folders.reverse()
-    return(folders)
+    return(folders,file)
                     
 def main():
     
@@ -252,13 +258,15 @@ def main():
         listProfiles(profilesDir)
                  
     # Get schema locations from profile
-    schemaMaster,schemaAccess,schemaTarget,schemaTargetAccess=readProfile(profile)
+    schemaMaster,schemaAccess,schemaTargetRGB,schemaTargetGray,schemaTargetAccessRGB,schemaTargetAccessGray=readProfile(profile)
     
     # Get schemas as lxml.etree elements
     schemaMasterLXMLElt=readAsLXMLElt(schemaMaster)
     schemaAccessLXMLElt=readAsLXMLElt(schemaAccess)
-    schemaTargetLXMLElt=readAsLXMLElt(schemaTarget)
-    schemaTargetAccessLXMLElt=readAsLXMLElt(schemaTargetAccess)
+    schemaTargetRGBLXMLElt=readAsLXMLElt(schemaTargetRGB)
+    schemaTargetGrayLXMLElt=readAsLXMLElt(schemaTargetGray)
+    schemaTargetAccessRGBLXMLElt=readAsLXMLElt(schemaTargetAccessRGB)
+    schemaTargetAccessGrayLXMLElt=readAsLXMLElt(schemaTargetAccessGray)
         
     # Set line separator for output/ log files to OS default
     lineSep=os.linesep
@@ -295,18 +303,27 @@ def main():
         ptOutString=""
                         
         # Create list that contains all file path components (dir names)
-        pathComponents=getPathComponentsAsList(myJP2)
-                
+        pathComponents, fName=getPathComponentsAsList(myJP2)
+                        
         # Select schema based on value of parentDir (master/access/targets-jp2)
-        
-        if "targets-jp2_access" in pathComponents:
-            mySchema=schemaTargetAccessLXMLElt
-        elif "master" in pathComponents:
+
+        if "master" in pathComponents:
             mySchema=schemaMasterLXMLElt
+            
         elif "access" in pathComponents:
             mySchema=schemaAccessLXMLElt
+            
+        elif "targets-jp2_access" in pathComponents:
+            if "_MTF_GRAY_" in fName:
+                mySchema=schemaTargetAccessGrayLXMLElt
+            else:
+                mySchema=schemaTargetAccessRGBLXMLElt
+
         elif "targets-jp2" in pathComponents: 
-            mySchema=schemaTargetLXMLElt
+            if "_MTF_GRAY_" in fName:
+                mySchema=schemaTargetGrayLXMLElt
+            else:
+                mySchema=schemaTargetRGBLXMLElt
         else:
             schemaMatch=False
             status="fail"
