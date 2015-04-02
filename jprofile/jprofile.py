@@ -34,7 +34,7 @@
 # (this tool does a recursive scan of whole directory tree of a batch)
 
 
-__version__= "0.5.1"
+__version__= "0.6.0"
 
 import sys
 import os
@@ -299,7 +299,7 @@ def main():
                 
         # Select schema based on value of parentDir (master/access/targets-jp2)
         
-        if "targets-jp2_access"in pathComponents:
+        if "targets-jp2_access" in pathComponents:
             mySchema=schemaTargetAccessLXMLElt
         elif "master" in pathComponents:
             mySchema=schemaMasterLXMLElt
@@ -314,7 +314,7 @@ def main():
             ptOutString +=description + lineSep    
         
         if schemaMatch == True:
-            
+                    
             #Run jpylyzer on image and write result to text file
             try:
                 resultJpylyzer=jpylyzer.checkOneFile(myJP2)

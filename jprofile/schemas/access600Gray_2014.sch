@@ -77,10 +77,10 @@
       <!-- Transformation (lossy vs lossless) -->
       <s:assert test="transformation = '9-7 irreversible'">wrong transformation</s:assert>
     </s:rule>
-    <!-- Check specs reference as codestream comment (TODO: if file contains multiple codestream
-            comments this may generate an error, might be possible to improve this -->
-    <s:rule context="/jpylyzer/properties/contiguousCodestreamBox/com">
-      <s:assert test="comment = 'KB_ACCESS_LOSSY_01/01/2015'">wrong codestream comment string</s:assert>
+    <!-- Check specs reference as codestream comment -->
+    <!-- Rule looks for one exact match, additional codestream comments are permitted -->
+     <s:rule context="/jpylyzer/properties/contiguousCodestreamBox">
+        <s:assert test="count(com/comment[text()='KB_ACCESS_LOSSY_01/01/2015']) =1">Expected codestream comment string missing</s:assert>
     </s:rule>
      </s:pattern>
 </s:schema>

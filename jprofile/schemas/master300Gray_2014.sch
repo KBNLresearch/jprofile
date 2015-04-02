@@ -87,10 +87,10 @@
       <s:assert test="precinctSizeY[5] = '256'">precinctSizeY doesn't match profile</s:assert>
       <s:assert test="precinctSizeY[6] = '256'">precinctSizeY doesn't match profile</s:assert>
     </s:rule>
-    <!-- Check specs reference as codestream comment (TODO: if file contains multiple codestream
-            comments this may generate an error, might be possible to improve this -->
-    <s:rule context="/jpylyzer/properties/contiguousCodestreamBox/com">
-      <s:assert test="comment = 'KB_MASTER_LOSSLESS_01/01/2015'">wrong codestream comment string</s:assert>
+    <!-- Check specs reference as codestream comment -->
+    <!-- Rule looks for one exact match, additional codestream comments are permitted -->
+     <s:rule context="/jpylyzer/properties/contiguousCodestreamBox">
+        <s:assert test="count(com/comment[text()='KB_MASTER_LOSSLESS_01/01/2015']) =1">Expected codestream comment string missing</s:assert>
     </s:rule>
      </s:pattern>
 </s:schema>
