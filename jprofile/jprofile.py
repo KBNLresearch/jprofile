@@ -34,7 +34,7 @@
 # (this tool does a recursive scan of whole directory tree of a batch)
 
 
-__version__= "0.5.0"
+__version__= "0.5.1"
 
 import sys
 import os
@@ -295,13 +295,14 @@ def main():
                 
         # Select schema based on value of parentDir (master/access/targets-jp2)
         
-        if "master" in pathComponents:
+        if "targets-jp2_access"in pathComponents:
+            mySchema=schemaTargetLXMLElt
+        elif "master" in pathComponents:
             mySchema=schemaMasterLXMLElt
         elif "access" in pathComponents:
             mySchema=schemaAccessLXMLElt
         elif "targets-jp2" in pathComponents: 
             mySchema=schemaTargetLXMLElt
-
         else:
             schemaMatch=False
             status="fail"
