@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
    Schematron jpylyzer schema: verify if JP2 conforms to 
-   KB's  profile for access copies (A.K.A. KB_ACCESS_LOSSY_01/07/2014)
+   KB's  profile for access copies (A.K.A. KB_ACCESS_LOSSY_01/01/2015)
    Johan van der Knijff, KB / National Library of the Netherlands , 2 December 2014.
    Additional checks for ICC profile and resolution 
    
@@ -80,7 +80,7 @@
     <!-- Check specs reference as codestream comment (TODO: if file contains multiple codestream
             comments this may generate an error, might be possible to improve this -->
     <s:rule context="/jpylyzer/properties/contiguousCodestreamBox/com">
-      <s:assert test="comment = 'KB_ACCESS_LOSSY_01/07/2014'">wrong codestream comment string</s:assert>
+      <s:assert test="comment = 'KB_ACCESS_LOSSY_01/01/2015'">wrong codestream comment string</s:assert>
     </s:rule>
      </s:pattern>
 </s:schema>
