@@ -13,7 +13,8 @@ NOTE: names only, not full paths (default location! -->
 
 <schemaMaster>master600Colour_2014.sch</schemaMaster>
 <schemaAccess>access600Colour_2014.sch</schemaAccess>
-<schemaTarget>master600Colour_2014.sch</schemaTarget>
+<schemaTarget>kbMaster_2014.sch</schemaTarget>
+<schemaTargetAccess>kbAccess_2014.sch</schemaTargetAccess>
 
 </profile>
 

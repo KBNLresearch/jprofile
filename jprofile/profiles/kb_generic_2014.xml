@@ -14,6 +14,7 @@ NOTE: names only, not full paths (default location! -->
 <schemaMaster>kbMaster_2014.sch</schemaMaster>
 <schemaAccess>kbAccess_2014.sch</schemaAccess>
 <schemaTarget>kbMaster_2014.sch</schemaTarget>
+<schemaTargetAccess>kbAccess_2014.sch</schemaTargetAccess>
 
 </profile>
 
