@@ -157,18 +157,21 @@ def readProfile(profile):
     schemaMasterElement=prof.find("schemaMaster")
     schemaAccessElement=prof.find("schemaAccess")
     schemaTargetElement=prof.find("schemaTarget")
+    schemaTargetAccessElement=prof.find("schemaTargetAccess")
     
     # Get corresponding text values
     schemaMaster=addPath(appPath + "/schemas/",schemaMasterElement.text)
     schemaAccess= addPath(appPath + "/schemas/",schemaAccessElement.text)
-    schemaTarget= addPath(appPath + "/schemas/",schemaTargetElement.text) 
+    schemaTarget= addPath(appPath + "/schemas/",schemaTargetElement.text)
+    schemaTargetAccess= addPath(appPath + "/schemas/",schemaTargetAccessElement.text) 
     
     # Check if all files exist, and exit if not
     checkFileExists(schemaMaster)
     checkFileExists(schemaAccess)
     checkFileExists(schemaTarget)
+    checkFileExists(schemaTargetAccess)
        
-    return(schemaMaster,schemaAccess,schemaTarget)
+    return(schemaMaster,schemaAccess,schemaTarget,schemaTargetAccess)
 
 def readAsLXMLElt(xmlFile):
     # Parse XML file with lxml and return result as element object
@@ -249,12 +252,13 @@ def main():
         listProfiles(profilesDir)
                  
     # Get schema locations from profile
-    schemaMaster,schemaAccess,schemaTarget=readProfile(profile)
+    schemaMaster,schemaAccess,schemaTarget,schemaTargetAccess=readProfile(profile)
     
     # Get schemas as lxml.etree elements
     schemaMasterLXMLElt=readAsLXMLElt(schemaMaster)
     schemaAccessLXMLElt=readAsLXMLElt(schemaAccess)
     schemaTargetLXMLElt=readAsLXMLElt(schemaTarget)
+    schemaTargetAccessLXMLElt=readAsLXMLElt(schemaTargetAccess)
         
     # Set line separator for output/ log files to OS default
     lineSep=os.linesep
@@ -296,7 +300,7 @@ def main():
         # Select schema based on value of parentDir (master/access/targets-jp2)
         
         if "targets-jp2_access"in pathComponents:
-            mySchema=schemaTargetLXMLElt
+            mySchema=schemaTargetAccessLXMLElt
         elif "master" in pathComponents:
             mySchema=schemaMasterLXMLElt
         elif "access" in pathComponents:
