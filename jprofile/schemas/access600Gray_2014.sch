@@ -25,6 +25,8 @@
          don't contain much information very high compression ratios may be obtained without losing quality)  
           -->
       <s:assert test="compressionRatio &lt; 25">compression ratio too high</s:assert>
+      <!-- check if compression ratio not smaller than threshold value -->
+      <s:assert test="compressionRatio &gt; 15">compression ratio too low</s:assert>
     </s:rule>
     <!-- check that resolution box exists -->
     <s:rule context="/jpylyzer/properties/jp2HeaderBox">
