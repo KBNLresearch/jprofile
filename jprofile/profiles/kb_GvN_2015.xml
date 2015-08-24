@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Profiel voor KB Geheugen van Nederland batches (alleen access JP2s; lossless!)
+
+ -->
+
+<!-- NOTE: for these materials ONLY access image are provided, but jprofile needs values for
+master and target as well (in this case they're basically dummy values)  -->
+
+<schemaMaster>kbAccess_GvN_2015.sch</schemaMaster>
+<schemaAccess>kbAccess_GvN_2015.sch</schemaAccess>
+<schemaTargetRGB>kbAccess_GvN_2015.sch</schemaTargetRGB>
+<schemaTargetGray>kbAccess_GvN_2015.sch</schemaTargetGray>
+<schemaTargetAccessRGB>kbAccess_GvN_2015.sch</schemaTargetAccessRGB>
+<schemaTargetAccessGray>kbAccess_GvN_2015.sch</schemaTargetAccessGray>
+
+</profile>
+
