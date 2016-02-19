@@ -10,7 +10,7 @@ readme.close()
 
 setup(name='jprofile',
       packages=['jprofile'],
-      version='0.6.1',
+      version='0.6.2',
       license='LGPL',
       platforms=['POSIX', 'Windows'],
       description=' Automated JP2 profiling for digitisation batches',
