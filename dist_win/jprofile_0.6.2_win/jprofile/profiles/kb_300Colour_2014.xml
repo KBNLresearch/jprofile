@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Profiel voor KB digitaliseringstrajecten:
+
+300 ppi, kleur (Adobe RGB 1998 ICC profiel)
+
+Let op: generiek profiel voor targets en access targets vanwege mix kleur / grayscale
+Dit betekent dat voor de targets niet op kleurruimte of resolutie wordt gecontroleerd!
+
+ -->
+
+<!-- Names of Schematron schemas for master, access and target images
+NOTE: names only, not full paths (default location! -->
+
+<schemaMaster>master300Colour_2014.sch</schemaMaster>
+<schemaAccess>access300Colour_2014.sch</schemaAccess>
+<schemaTargetRGB>master300Colour_2014.sch</schemaTargetRGB>
+<schemaTargetGray>master300Gray_2014.sch</schemaTargetGray>
+<schemaTargetAccessRGB>access300Colour_2014.sch</schemaTargetAccessRGB>
+<schemaTargetAccessGray>access300Gray_2014.sch</schemaTargetAccessGray>
+
+</profile>
+
+

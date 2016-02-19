@@ -20,8 +20,8 @@ setlocal
 ::::::::: CONFIGURATION :::::::::: 
 
 :: Path to 32 bit Python
-:: set python=c:\python27_32bit\python
-set python=c:\python27\python
+set python=c:\python27_32bit\python
+::set python=c:\python27\python
 
 :: Path to PyInstaller
 set pathPyInstaller=c:\pyinstall\

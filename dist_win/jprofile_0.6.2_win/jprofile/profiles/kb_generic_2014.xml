@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Generiek profiel voor KB digitaliseringstrajecten:
+
+Geen specifieke eisen voor resolutie of kleurruimte
+
+ -->
+
+<!-- Names of Schematron schemas for master, access and target images
+NOTE: names only, not full paths (default location! -->
+
+<schemaMaster>kbMaster_2014.sch</schemaMaster>
+<schemaAccess>kbAccess_2014.sch</schemaAccess>
+<schemaTarget>kbMaster_2014.sch</schemaTarget>
+<schemaTargetAccess>kbAccess_2014.sch</schemaTargetAccess>
+
+</profile>
+

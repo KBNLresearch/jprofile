@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Profiel voor KB digitaliseringstrajecten:
+
+600 ppi, grayscale (Gray Gamma 2.2 ICC profiel)
+
+ -->
+
+<!-- Names of Schematron schemas for master, access and target images
+NOTE: names only, not full paths (default location! -->
+
+<schemaMaster>master600Gray_2014.sch</schemaMaster>
+<schemaAccess>access600Gray_2014.sch</schemaAccess>
+<schemaTargetRGB>master600Colour_2014.sch</schemaTargetRGB>
+<schemaTargetGray>master600Gray_2014.sch</schemaTargetGray>
+<schemaTargetAccessRGB>access600Colour_2014.sch</schemaTargetAccessRGB>
+<schemaTargetAccessGray>access600Gray_2014.sch</schemaTargetAccessGray>
+
+</profile>
+

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Profiel voor KB kranten:
+
+- Master: resolutie 300 ppi, kleurruimte Gray Gamma 2.2
+- Access: resolutie 300 ppi, kleurruimte Adobe RGB (1998)
+- Target: resolutie 300 ppi, kleurruimte Adobe RGB (1998)
+
+ -->
+
+<!-- Names of Schematron schemas for master, access and target images
+NOTE: names only, not full paths (default location! -->
+
+<schemaMaster>master300Gray_2011.sch</schemaMaster>
+<schemaAccess>access300Colour_2011.sch</schemaAccess>
+<schemaTarget>master300Colour_2011.sch</schemaTarget>
+
+</profile>
+
