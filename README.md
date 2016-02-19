@@ -66,6 +66,7 @@ The following profiles are included by default:
 |kb_bt600_2011.xml|KB books and periodicals, master digitised at 600 ppi<sup>\*</sup>|
 |kb_kranten_2011.xml|KB newspapers<sup>\*</sup>|
 |kb_micro_2011.xml|KB microfilms<sup>\*</sup>|
+|kb_gvn.xml|Profile for acces images Geheugen van Nederland, which are reated from old regular JPEGs|
 
 Profiles marked with <sup>\*</sup> in the table follow the KB's 2011 specifications; all other profiles follow the 2014 specifications. 
 
@@ -97,7 +98,8 @@ The quality assessment is based on a number of rules/tests that are defined a se
 |access300Colour_2011.sch|Schema for lossily-compressed access images, 300 ppi, Adobe RGB (1998) colour space<sup>\*</sup>|
 |access300Gray_2011.sch|chema for lossily-compressed access images, 300 ppi, Gray Gamma 2.2 colour space<sup>\*</sup>|
 |access150Colour_2011.sch|Schema for lossily-compressed access images, 150 ppi, Adobe RGB (1998) colour space<sup>\*</sup>|
-|access150Gray_2011.sch|chema for lossily-compressed access images, 150 ppi, Gray Gamma 2.2 colour space<sup>\*</sup>|
+|access150Gray_2011.sch|Schema for lossily-compressed access images, 150 ppi, Gray Gamma 2.2 colour space<sup>\*</sup>|
+|accessGvN_2016.sch|Schema for acces images Geheugen van Nederland (lossless compression, no colour space and resolution requiremements)|
 
 Schemas marked with <sup>\*</sup> in the table follow the KB's 2011 specifications; all other profiles follow the 2014 specifications. 
 
