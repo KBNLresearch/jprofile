@@ -1,5 +1,5 @@
 # -*- mode: python -*-
-a = Analysis(['.\jprofile\jprofile.py'],
+a = Analysis(['.\cli.py'],
              pathex=['.\jprofile'],
              hiddenimports=[],
              hookspath=None)
@@ -7,7 +7,7 @@ pyz = PYZ(a.pure)
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=1,
-          name=os.path.join('build\\pyi.win32\\jprofile', 'jprofile.exe'),
+          name=os.path.join('build\\pyi.win64\\jprofile', 'jprofile.exe'),
           debug=False,
           strip=None,
           upx=True,
@@ -28,4 +28,4 @@ coll = COLLECT(exe,
                a.datas,
                strip=None,
                upx=True,
-               name=os.path.join('dist_win', 'jprofile'))
+               name=os.path.join('dist_win64', 'jprofile'))
