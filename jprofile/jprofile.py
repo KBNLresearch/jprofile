@@ -113,10 +113,17 @@ def parseCommandLine():
     parser = argparse.ArgumentParser(description="JP2 profiler for KB",version=__version__)
     
     # Add arguments
-    parser.add_argument('batchDir', action="store", help="batch directory")
-    parser.add_argument('prefixOut', action="store", help="prefix of output files")
-    parser.add_argument('-p','--profile', action="store", help='name of profile that defines schemas for master, access and target images. \
-    Type "l" or "list" to view all available profiles')
+    parser.add_argument('batchDir',
+                        action="store",
+                        help="batch directory")
+    parser.add_argument('prefixOut',
+                        action="store",
+                        help="prefix of output files")
+    parser.add_argument('-p','--profile',
+                        action="store",
+                        default="list",
+                        help='name of profile that defines schemas for master, access and target images. \
+                            Type "l" or "list" to view all available profiles')
    
     # Parse arguments
     args=parser.parse_args()
@@ -128,7 +135,7 @@ def parseCommandLine():
 
 def listProfiles(profilesDir):
     profileNames=os.listdir(profilesDir)
-    
+    print("\nAvailable profiles:\n")
     for i in range(len(profileNames)):
         print(profileNames[i])
     sys.exit()
