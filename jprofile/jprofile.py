@@ -43,9 +43,7 @@ import shutil
 import time
 import argparse
 import xml.etree.ElementTree as ET
-import jpylyzer
-import config
-import codecs
+from jpylyzer import jpylyzer
 from lxml import isoschematron
 from lxml import etree
 
@@ -107,7 +105,7 @@ def constructFileName(fileIn,extOut,suffixOut):
     return(fileOut)
 
 def addPath(pathIn,fileIn):
-    result=os.path.normpath(pathIn+ "/" + fileIn)
+    result=os.path.normpath(pathIn + "/" + fileIn)
     return(result)
     
 def parseCommandLine():
@@ -139,7 +137,7 @@ def readProfile(profile):
        
     # What is the location of this script?
     appPath=os.path.abspath(get_main_dir())
-    
+   
     profile=addPath(appPath + "/profiles/",profile)
 
     # Check if profile exists and exit if not
@@ -259,7 +257,7 @@ def main():
                  
     # Get schema locations from profile
     schemaMaster,schemaAccess,schemaTargetRGB,schemaTargetGray,schemaTargetAccessRGB,schemaTargetAccessGray=readProfile(profile)
-    
+
     # Get schemas as lxml.etree elements
     schemaMasterLXMLElt=readAsLXMLElt(schemaMaster)
     schemaAccessLXMLElt=readAsLXMLElt(schemaAccess)
