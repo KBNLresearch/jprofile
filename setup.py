@@ -53,4 +53,3 @@ setup(name='jprofile',
           'Programming Language :: Python :: 3',
       ]
      )
-
