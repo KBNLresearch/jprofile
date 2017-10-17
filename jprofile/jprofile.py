@@ -1,15 +1,27 @@
 #! /usr/bin/env python
-#
-# JPEG 2000 Automated Quality Assessment Tool
-# Automated quality control of JP2 images for KB digitisation projects.
-# Wraps around jpylyzer
-# Johan van der Knijff
-#
-# Requires Python v. 2.7.x + lxml library; Python 3 may work (but not tested)
-#
-# Copyright 2013, 2014 Johan van der Knijff, KB/National Library of the Netherlands
-#
-#
+
+"""JPEG 2000 Automated Quality Assessment Tool
+
+Automated quality control of JP2 images for KB digitisation projects
+Wraps around jpylyzer
+Johan van der Knijff
+
+Requires Python v. 2.7.x + lxml library; Python 3 may work (but not tested)
+
+Preconditions:
+
+- Images that are to be analysed have a .jp2 extension (all others ignored!)
+- Parent directory of master images is called 'master'
+- Parent directory of access images is called 'access'
+- Parent directory of target images is called 'targets-jp2'
+
+Master, access and targets directories may be located in a subdirectory.
+Other than that organisation of images may follow arbitrary directory structure
+(jprofile does a recursive scan of whole directory tree of a batch)
+
+Copyright 2013, 2017 Johan van der Knijff, KB/National Library of the Netherlands
+"""
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -22,16 +34,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-#
-# Preconditions:
-#
-# - All images that are to be analysed have a .jp2 extension (all others are ignored!)
-# - Parent directory of master images is called 'master' (may be in subdirectory)
-# - Parent directory of access images is called 'access' (may be in subdirectory)
-# - Parent directory of target images is called 'targets-jp2' (may be in subdirectory)
-#
-# Other than that organisation of images may follow arbitrary directory structure
-# (this tool does a recursive scan of whole directory tree of a batch)
+
 
 
 __version__ = "0.7.0"
@@ -47,70 +50,86 @@ from jpylyzer import jpylyzer
 from lxml import isoschematron
 from lxml import etree
 
+
 def main_is_frozen():
+    """Determine if this jprofile instance is 'frozen' executable"""
     return (hasattr(sys, "frozen") or # new py2exe
             hasattr(sys, "importers") # old py2exe
             or imp.is_frozen("__main__")) # tools/freeze
-    
+
+
 def get_main_dir():
+    """Return installation directory"""
     if main_is_frozen():
         return os.path.dirname(sys.executable)
     return os.path.dirname(sys.argv[0])
 
+
 def errorExit(msg):
-    msgString=("ERROR: " +msg + "\n")
+    """Write error to stderr and exit"""
+    msgString = ("ERROR: " +msg + "\n")
     sys.stderr.write(msgString)
     sys.exit()
+
     
 def checkFileExists(fileIn):
-    # Check if file exists and exit if not
+    """Check if file exists and exit if not"""
     if os.path.isfile(fileIn)==False:
-        msg=fileIn + " does not exist!"
+        msg = fileIn + " does not exist!"
         errorExit(msg)
-        
+
+
 def checkDirExists(pathIn):
-    # Check if directory exists and exit if not
+    """Check if directory exists and exit if not"""
     if os.path.isdir(pathIn)==False:
-        msg=pathIn + " does not exist!"
+        msg = pathIn + " does not exist!"
         errorExit(msg)
-        
+
+
 def openFileForAppend(file):
-    # Opens file for writing in append + binary mode
+    """Opens file for writing in append + binary mode"""
     try:
         f=open(file,"ab")
         return(f)
     except Exception:
-        msg=file + " could not be written"
+        msg = file + " could not be written"
         errorExit(msg)
 
-def removeFile(file):
+
+def removeFile(fileIn):
+    """Remove a file"""
     try:
-        if os.path.isfile(file)==True:
-            os.remove(file)
+        if os.path.isfile(fileIn) == True:
+            os.remove(fileIn)
     except Exception:
-        msg= "Could not remove " + file
+        msg= "Could not remove " + fileIn
         errorExit(msg)
+
 
 def constructFileName(fileIn,extOut,suffixOut):
+    """Construct filename by replacing path by pathOut,
+    adding suffix and extension
+    """
 
-    # Construct filename by replacing path by pathOut,
-    # adding suffix and extension
-    
-    fileInTail=os.path.split(fileIn)[1]
+    fileInTail = os.path.split(fileIn)[1]
+    baseNameIn = os.path.splitext(fileInTail)[0]
+    baseNameOut = baseNameIn + suffixOut + "." + extOut
+    fileOut = baseNameOut
+    return fileOut
 
-    baseNameIn=os.path.splitext(fileInTail)[0]
-    baseNameOut=baseNameIn + suffixOut + "." + extOut
-    fileOut=baseNameOut
-
-    return(fileOut)
 
 def addPath(pathIn,fileIn):
-    result=os.path.normpath(pathIn + "/" + fileIn)
-    return(result)
-    
+    """Add path to file"""
+    result = os.path.normpath(pathIn + "/" + fileIn)
+    return result
+
+
 def parseCommandLine():
+    """Parse command line"""
+
     # Create parser
-    parser = argparse.ArgumentParser(description="JP2 profiler for KB",version=__version__)
+    parser = argparse.ArgumentParser(description="JP2 profiler for KB",
+                                     version=__version__)
     
     # Add arguments
     parser.add_argument('batchDir',
@@ -122,30 +141,35 @@ def parseCommandLine():
     parser.add_argument('-p','--profile',
                         action="store",
                         default="list",
-                        help='name of profile that defines schemas for master, access and target images. \
-                            Type "l" or "list" to view all available profiles')
-   
+                        help='name of profile that defines schemas for master,\
+                               access and target images. Type "l" or "list" \
+                              to view all available profiles')
+
     # Parse arguments
     args=parser.parse_args()
-    
+
     # Normalise all file paths
     args.batchDir=os.path.normpath(args.batchDir)
-    
-    return(args)
+
+    return args
+
 
 def listProfiles(profilesDir):
-    profileNames=os.listdir(profilesDir)
+    """List all available profiles"""
+    profileNames = os.listdir(profilesDir)
     print("\nAvailable profiles:\n")
     for i in range(len(profileNames)):
         print(profileNames[i])
     sys.exit()
+
     
 def readProfile(profile):
-       
-    # What is the location of this script?
-    appPath=os.path.abspath(get_main_dir())
-   
-    profile=addPath(appPath + "/profiles/",profile)
+    """Read a profile and return dictionary with all associated schemas"""
+
+    # Installation location of jprofile
+    appPath = os.path.abspath(get_main_dir())
+
+    profile = addPath(appPath + "/profiles/",profile)
 
     # Check if profile exists and exit if not
     checkFileExists(profile)
@@ -155,25 +179,31 @@ def readProfile(profile):
         tree = ET.parse(profile)
         prof = tree.getroot()
     except Exception:
-        msg="error parsing " + profile
+        msg = "error parsing " + profile
         errorExit(msg)
-    
+
     # Locate schema elements
-    schemaMasterElement=prof.find("schemaMaster")
-    schemaAccessElement=prof.find("schemaAccess")
-    schemaTargetRGBElement=prof.find("schemaTargetRGB")
-    schemaTargetGrayElement=prof.find("schemaTargetGray")
-    schemaTargetAccessRGBElement=prof.find("schemaTargetAccessRGB")
-    schemaTargetAccessGrayElement=prof.find("schemaTargetAccessGray")
-    
+    schemaMasterElement = prof.find("schemaMaster")
+    schemaAccessElement = prof.find("schemaAccess")
+    schemaTargetRGBElement = prof.find("schemaTargetRGB")
+    schemaTargetGrayElement = prof.find("schemaTargetGray")
+    schemaTargetAccessRGBElement = prof.find("schemaTargetAccessRGB")
+    schemaTargetAccessGrayElement = prof.find("schemaTargetAccessGray")
+
     # Get corresponding text values
-    schemaMaster=addPath(appPath + "/schemas/",schemaMasterElement.text)
-    schemaAccess= addPath(appPath + "/schemas/",schemaAccessElement.text)
-    schemaTargetRGB= addPath(appPath + "/schemas/",schemaTargetRGBElement.text)
-    schemaTargetGray= addPath(appPath + "/schemas/",schemaTargetGrayElement.text)
-    schemaTargetAccessRGB= addPath(appPath + "/schemas/",schemaTargetAccessRGBElement.text) 
-    schemaTargetAccessGray= addPath(appPath + "/schemas/",schemaTargetAccessGrayElement.text) 
-    
+    schemaMaster = addPath(appPath + "/schemas/",
+                           schemaMasterElement.text)
+    schemaAccess = addPath(appPath + "/schemas/",
+                           schemaAccessElement.text)
+    schemaTargetRGB = addPath(appPath + "/schemas/",
+                              schemaTargetRGBElement.text)
+    schemaTargetGray = addPath(appPath + "/schemas/",
+                               schemaTargetGrayElement.text)
+    schemaTargetAccessRGB = addPath(appPath + "/schemas/",
+                                    schemaTargetAccessRGBElement.text) 
+    schemaTargetAccessGray = addPath(appPath + "/schemas/",
+                                     schemaTargetAccessGrayElement.text) 
+
     # Check if all files exist, and exit if not
     checkFileExists(schemaMaster)
     checkFileExists(schemaAccess)
@@ -181,54 +211,69 @@ def readProfile(profile):
     checkFileExists(schemaTargetGray)
     checkFileExists(schemaTargetAccessRGB)
     checkFileExists(schemaTargetAccessGray)
-       
-    return(schemaMaster,schemaAccess,schemaTargetRGB,schemaTargetGray,schemaTargetAccessRGB,schemaTargetAccessGray)
+
+    # Add schemas to a dictionary
+    schemas = {"schemaMaster": schemaMaster,
+               "schemaAccess" : schemaAccess,
+               "schemaTargetRGB" : schemaTargetRGB,
+               "schemaTargetGray" : schemaTargetGray,
+               "schemaTargetAccessRGB" : schemaTargetAccessRGB,
+               "schemaTargetAccessGray" : schemaTargetAccessGray}
+
+    return schemas
+
 
 def readAsLXMLElt(xmlFile):
-    # Parse XML file with lxml and return result as element object
-    # Not the same as Elementtree object!
-    
+    """Parse XML file with lxml and return result as element object
+    (not the same as Elementtree object!)
+    """
+
     f = open(xmlFile, 'r')
-    # Note we're using lxml.etree here rather than elementtree (yes, it's confusing!)
+    # Note we're using lxml.etree here rather than elementtree
     resultAsLXMLElt = etree.parse(f)
     f.close()
-    
-    return(resultAsLXMLElt)
-    
+
+    return resultAsLXMLElt
+
+
 def getFilesFromTree(rootDir, extensionString):
-    # Walk down whole directory tree (including all subdirectories)
-    # and return list of those files whose extension contains user defined string
-    # NOTE: directory names are disabled here!!
-    # implementation is case insensitive (all search items converted to
-    # upper case internally!
+    """Walk down whole directory tree (including all subdirectories) and
+    return list of those files whose extension contains user defined string
+    NOTE: directory names are disabled here!!
+    implementation is case insensitive (all search items converted to
+    upper case internally!
+    """
 
-    extensionString=extensionString.upper()
+    extensionString = extensionString.upper()
 
-    filesList=[]
+    filesList = []
+
     for dirname, dirnames, filenames in os.walk(rootDir):
         #Suppress directory names
         for subdirname in dirnames:
-            thisDirectory=os.path.join(dirname, subdirname)
+            thisDirectory = os.path.join(dirname, subdirname)
 
         for filename in filenames:
-            thisFile=os.path.join(dirname, filename)
-            thisExtension=os.path.splitext(thisFile)[1]
-            thisExtension=thisExtension.upper()
+            thisFile = os.path.join(dirname, filename)
+            thisExtension = os.path.splitext(thisFile)[1]
+            thisExtension = thisExtension.upper()
             if extensionString in thisExtension:
                 filesList.append(thisFile)
     return filesList
 
+
 def getPathComponentsAsList(path):
-    
-    # Adapted from:
-    # http://stackoverflow.com/questions/3167154/how-to-split-a-dos-path-into-its-components-in-python
-    
-    drive,path_and_file=os.path.splitdrive(path)
-    path,file=os.path.split(path_and_file)
-    
+    """Returns a list that contains all path components (dir names) in path
+    Adapted from:
+    http://stackoverflow.com/questions/3167154/how-to-split-a-dos-path-into-its-components-in-python
+    """
+
+    drive,path_and_file = os.path.splitdrive(path)
+    path,file = os.path.split(path_and_file)
+
     folders=[]
     while 1:
-        path,folder=os.path.split(path)
+        path,folder = os.path.split(path)
 
         if folder!="":
             folders.append(folder)
@@ -240,201 +285,206 @@ def getPathComponentsAsList(path):
 
     folders.reverse()
     return(folders,file)
-                    
+
+
 def main():
-    
+    """Main function"""
+
     # What is the location of this script/executable
-    appPath=os.path.abspath(get_main_dir())
-        
+    appPath = os.path.abspath(get_main_dir())
+
     # Profiles dir
-    profilesDir= os.path.abspath(appPath + "/profiles/")
+    profilesDir = os.path.abspath(appPath + "/profiles/")
 
     # Check if cprofiles dir exists and exit if not
     checkDirExists(profilesDir)
 
     # Get input from command line
-    args=parseCommandLine()
-    
-    batchDir=args.batchDir
-    prefixOut=args.prefixOut
-    
-    profile=args.profile
+    args = parseCommandLine()
+
+    batchDir = args.batchDir
+    prefixOut = args.prefixOut
+
+    profile = args.profile
     if profile in["l","list"]:
         listProfiles(profilesDir)
-                 
+   
     # Get schema locations from profile
-    schemaMaster,schemaAccess,schemaTargetRGB,schemaTargetGray,schemaTargetAccessRGB,schemaTargetAccessGray=readProfile(profile)
+    schemas = readProfile(profile)
+
+    schemaMaster = schemas["schemaMaster"]
+    schemaAccess = schemas["schemaAccess"]
+    schemaTargetRGB = schemas["schemaTargetRGB"]
+    schemaTargetGray = schemas["schemaTargetGray"]
+    schemaTargetAccessRGB = schemas["schemaTargetAccessRGB"]
+    schemaTargetAccessGray = schemas["schemaTargetAccessGray"]
 
     # Get schemas as lxml.etree elements
-    schemaMasterLXMLElt=readAsLXMLElt(schemaMaster)
-    schemaAccessLXMLElt=readAsLXMLElt(schemaAccess)
-    schemaTargetRGBLXMLElt=readAsLXMLElt(schemaTargetRGB)
-    schemaTargetGrayLXMLElt=readAsLXMLElt(schemaTargetGray)
-    schemaTargetAccessRGBLXMLElt=readAsLXMLElt(schemaTargetAccessRGB)
-    schemaTargetAccessGrayLXMLElt=readAsLXMLElt(schemaTargetAccessGray)
-        
+    schemaMasterLXMLElt = readAsLXMLElt(schemaMaster)
+    schemaAccessLXMLElt = readAsLXMLElt(schemaAccess)
+    schemaTargetRGBLXMLElt = readAsLXMLElt(schemaTargetRGB)
+    schemaTargetGrayLXMLElt = readAsLXMLElt(schemaTargetGray)
+    schemaTargetAccessRGBLXMLElt = readAsLXMLElt(schemaTargetAccessRGB)
+    schemaTargetAccessGrayLXMLElt = readAsLXMLElt(schemaTargetAccessGray)
+
     # Set line separator for output/ log files to OS default
-    lineSep=os.linesep
-  
+    lineSep = os.linesep
+
     # Open log files for writing (append + binary mode so we don't have to worry
     # about encoding issues).
     # IMPORTANT: files are overwitten for each new session (hence 'removeFile'
     # before opening below!).
-    
+
     # File with summary of quality check status (pass/fail) for each image
-    statusLog=os.path.normpath(prefixOut + "_status.csv")
+    statusLog = os.path.normpath(prefixOut + "_status.csv")
     removeFile(statusLog)
-    fStatus=openFileForAppend(statusLog)
-    
+    fStatus = openFileForAppend(statusLog)
+
     # File that contains detailed results for of all images that failed quality check 
-    failedLog=os.path.normpath(prefixOut + "_failed.txt")
+    failedLog = os.path.normpath(prefixOut + "_failed.txt")
     removeFile(failedLog)
-    fFailed=openFileForAppend(failedLog)
-    
-    listJP2s=getFilesFromTree(batchDir, "jp2")
+    fFailed = openFileForAppend(failedLog)
+
+    listJP2s = getFilesFromTree(batchDir, "jp2")
 
     # start clock for statistics
     start = time.clock()
     print("jprofile started: " + time.asctime())
-    
+
     for i in range(len(listJP2s)):
-        myJP2=os.path.abspath(listJP2s[i])
-        
+        myJP2 = os.path.abspath(listJP2s[i])
+
         # Initialise status (pass/fail)
-        status="pass"
-        schemaMatch=True
-        
+        status = "pass"
+        schemaMatch = True
+
         # Initialise empty text string for error log output
-        ptOutString=""
-                        
+        ptOutString = ""
+  
         # Create list that contains all file path components (dir names)
-        pathComponents, fName=getPathComponentsAsList(myJP2)
-                        
+        pathComponents, fName = getPathComponentsAsList(myJP2)
+
         # Select schema based on value of parentDir (master/access/targets-jp2)
 
         if "master" in pathComponents:
-            mySchema=schemaMasterLXMLElt
-            
+            mySchema = schemaMasterLXMLElt
         elif "access" in pathComponents:
-            mySchema=schemaAccessLXMLElt
-            
+            mySchema = schemaAccessLXMLElt
         elif "targets-jp2_access" in pathComponents:
             if "_MTF_GRAY_" in fName:
-                mySchema=schemaTargetAccessGrayLXMLElt
+                mySchema = schemaTargetAccessGrayLXMLElt
             else:
-                mySchema=schemaTargetAccessRGBLXMLElt
-
+                mySchema = schemaTargetAccessRGBLXMLElt
         elif "targets-jp2" in pathComponents: 
             if "_MTF_GRAY_" in fName:
-                mySchema=schemaTargetGrayLXMLElt
+                mySchema = schemaTargetGrayLXMLElt
             else:
-                mySchema=schemaTargetRGBLXMLElt
+                mySchema = schemaTargetRGBLXMLElt
         else:
-            schemaMatch=False
-            status="fail"
-            description="Name of parent directory does not match any schema"
+            schemaMatch = False
+            status = "fail"
+            description = "Name of parent directory does not match any schema"
             ptOutString +=description + lineSep    
-        
+
         if schemaMatch == True:
                     
             #Run jpylyzer on image and write result to text file
             try:
-                resultJpylyzer=jpylyzer.checkOneFile(myJP2)
+                resultJpylyzer = jpylyzer.checkOneFile(myJP2)
                 resultAsXML = ET.tostring(resultJpylyzer, 'UTF-8', 'xml')                                
             except:
-                status="fail"
-                description="Error running jpylyzer"
-                ptOutString +=description + lineSep
-             
+                status = "fail"
+                description = "Error running jpylyzer"
+                ptOutString += description + lineSep
+
             try:
                 # Start Schematron magic ...
                 schematron = isoschematron.Schematron(mySchema, store_report = True)
-                
+
                 # Reparse jpylyzer XML with lxml since using ET object directly doesn't work
                 resultJpylyzerLXML = etree.fromstring(resultAsXML)
-                
+
                 # Validate jpylyzer output against schema                
                 schemaValidationResult = schematron.validate(resultJpylyzerLXML)
                 report = schematron.validation_report
-                               
+          
             except:
-                status="fail"
-                description="Schematron validation resulted in an error"
+                status = "fail"
+                description = "Schematron validation resulted in an error"
                 ptOutString +=description + lineSep
-            
+
             # Parse output of Schematron validation and extract interesting bits
             try:
-                               
+            
                 reportAsXML = etree.tostring(report)
-                            
-                #for elem in root.iter():
+
                 for elem in report.iter():
                     if elem.tag == "{http://purl.oclc.org/dsdl/svrl}failed-assert":
-                        
+
                         status="fail"
-                        
+
                         # Extract test definition
                         test = elem.get('test')
                         ptOutString += 'Test "'+ test + '" failed (' 
-                        
+
                         # Extract text description from text element
                         for subelem in elem.iter():
                             if subelem.tag=="{http://purl.oclc.org/dsdl/svrl}text":
-                               description=(subelem.text)
-                               ptOutString +=description + ")" + lineSep
+                               description = (subelem.text)
+                               ptOutString += description + ")" + lineSep
             except Exception:
-                status="fail"
-                description="Error processing Schematron output"
-                ptOutString +=description + lineSep
-            
+                status = "fail"
+                description = "Error processing Schematron output"
+                ptOutString += description + lineSep
+
             # Parse jpylyzer XML output and extract info on failed tests in case
             # image is not valid JP2
             try:
-                validationOutcome=resultJpylyzer.find("isValidJP2").text
-                                
+                validationOutcome = resultJpylyzer.find("isValidJP2").text
+
                 if validationOutcome=="False":
                     testsElt=resultJpylyzer.find('tests')
                     ptOutString += "*** Jpylyzer JP2 validation errors:" +lineSep
-                
+
                     # Iterate over tests element and report names of all tags that
                     # correspond to tests that failed
-                    
+
                     tests = list(testsElt.iter())
-                    
+
                     for i in tests:
                         if i.text=="False":
                             ptOutString += "Test " + i.tag + " failed" + lineSep
-                            
+
             except:
-                status="fail"
-                description="Error processing Jpylyzer output"
-                ptOutString +=description + lineSep
-                                                        
+                status = "fail"
+                description = "Error processing Jpylyzer output"
+                ptOutString += description + lineSep
+                         
         if status=="fail":
 
             fFailed.write(myJP2 + lineSep)
             fFailed.write("*** Schema validation errors:"+lineSep)
             fFailed.write(ptOutString)
             fFailed.write("####" + lineSep)
-            
+
         statusLine=myJP2 +"," + status + lineSep
-        
         fStatus.write(statusLine)
-    
+
     end = time.clock()
 
     # Close output files
     fStatus.close()
     fFailed.close()
-        
+
     print("jprofile ended: " + time.asctime())
-    
+
     # Elapsed time (seconds)
     timeElapsed = end - start
     timeInMinutes = timeElapsed / 60
-   
+
     print("Elapsed time: "+ str(timeInMinutes) + " minutes")
-    
+
 
 if __name__ == "__main__":
     main()
+
