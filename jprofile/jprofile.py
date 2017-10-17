@@ -47,7 +47,7 @@ from jpylyzer import jpylyzer
 from lxml import isoschematron
 from lxml import etree
 
-__version__ = "0.7.0"
+__version__ = "0.7.1"
 
 
 def main_is_frozen():
