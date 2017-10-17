@@ -62,17 +62,11 @@ The following profiles are included by default:
 |kb_300Gray_2014.xml|As generic profile, but with additional requirements than resolution equals 300 ppi and colour space is Gray Gamma 2.2|
 |kb_600Colour_2014.xml|As generic profile, but with additional requirements than resolution equals 600 ppi and colour space is Adobe RGB 1998|
 |kb_600Gray_2014.xml|As generic profile, but with additional requirements than resolution equals 360 ppi and colour space is Gray Gamma 2.2|
-|kb_bt300_2011.xml|KB books and periodicals, master digitised at 300 ppi<sup>\*</sup>|
-|kb_bt600_2011.xml|KB books and periodicals, master digitised at 600 ppi<sup>\*</sup>|
-|kb_kranten_2011.xml|KB newspapers<sup>\*</sup>|
-|kb_micro_2011.xml|KB microfilms<sup>\*</sup>|
-|kb_gvn.xml|Profile for acces images Geheugen van Nederland, which are reated from old regular JPEGs|
-
-Profiles marked with <sup>\*</sup> in the table follow the KB's 2011 specifications; all other profiles follow the 2014 specifications. 
 
 It is possible to create custom-made profiles. Just add them to the *profiles* directory in the installation folder.   
 
 ## Schemas
+
 The quality assessment is based on a number of rules/tests that are defined a set of *Schematron* schemas. These are located in the *schemas* folder in the installation directory. In principe *any* property that is reported by *jpylyzer* can be used here, and new tests can be added by editing the schemas. More details on this can be found in [this blog post](http://openpreservation.org/knowledge/blogs/2012/09/04/automated-assessment-jp2-against-technical-profile/).  
  
 ## Available schemas
@@ -89,19 +83,6 @@ The quality assessment is based on a number of rules/tests that are defined a se
 |access600Gray_2014.sch|Schema for lossily-compressed access images, 600 ppi, Gray Gamma 2.2 colour space|
 |access300Colour_2014.sch|Schema for lossily-compressed access images, 300 ppi, Adobe RGB (1998) colour space|
 |access300Gray_2014.sch|Schema for lossily-compressed access images, 300 ppi, Gray Gamma 2.2 colour space|
-|kbMaster_2011.sch|Generic schema for losslessly-compressed master images according to 2011 specifications<sup>\*</sup>|
-|master600Colour_2011.sch|Schema for losslessly-compressed master images, 600 ppi, Adobe RGB (1998) colour space<sup>\*</sup>|
-|master600Gray_2011.sch|Schema for losslessly-compressed master images, 600 ppi, Adobe RGB (1998) colour space<sup>\*</sup>|
-|master300Colour_2011.sch|Schema for losslessly-compressed master images, 300 ppi, Adobe RGB (1998) colour space<sup>\*</sup>|
-|master300Gray_2011.sch|Schema for losslessly-compressed master images, 300 ppi, Gray Gamma 2.2 colour space<sup>\*</sup>|
-|kbAccess_2011.sch|Generic schema for lossily-compressed access images according to 2011 specifications<sup>\*</sup>|
-|access300Colour_2011.sch|Schema for lossily-compressed access images, 300 ppi, Adobe RGB (1998) colour space<sup>\*</sup>|
-|access300Gray_2011.sch|chema for lossily-compressed access images, 300 ppi, Gray Gamma 2.2 colour space<sup>\*</sup>|
-|access150Colour_2011.sch|Schema for lossily-compressed access images, 150 ppi, Adobe RGB (1998) colour space<sup>\*</sup>|
-|access150Gray_2011.sch|Schema for lossily-compressed access images, 150 ppi, Gray Gamma 2.2 colour space<sup>\*</sup>|
-|accessGvN_2016.sch|Schema for acces images Geheugen van Nederland (lossless compression, no colour space and resolution requiremements)|
-
-Schemas marked with <sup>\*</sup> in the table follow the KB's 2011 specifications; all other profiles follow the 2014 specifications. 
 
 It is possible to create custom-made schemas. Just add them to the *schemas* directory in the installation folder.
 
@@ -156,19 +137,18 @@ Note that jpylyzer is unable to establish the compression ratio of individual la
 
 This results in a list of all available profiles (these are stored in the installation folder's *profiles* directory):
 
-    kb_300Colour_2014.xml
-    kb_300Gray_2014.xml
-    kb_600Colour_2014.xml
+    Available profiles:
+    
     kb_600Gray_2014.xml
-    kb_bt300_2011.xml
-    kb_bt600_2011.xml
+    kb_300Gray_2014.xml
+    kb_300Colour_2014.xml
+    kb_600Colour_2014.xml
     kb_generic_2014.xml
-    kb_kranten_2011.xml
-    kb_micro_2011.xml
+
 
 ### Analyse batch
 
-    jprofile d:\myBatch mybatch -p kb_bt300_2011.xml
+    jprofile d:\myBatch mybatch -p kb_300Colour_2014.xml
 
 This will result in the creation of 2 output files:
 
@@ -193,9 +173,9 @@ Any image that failed one or more tests are reported in the failure output file.
 
     F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2
     *** Schema validation errors:
-    Test "layers = '1'" failed (wrong number of layers)
+    Test "layers = '11'" failed (wrong number of layers)
     Test "transformation = '5-3 reversible'" failed (wrong transformation)
-    Test "comment = 'KB_MASTER_LOSSLESS_21/01/2011'" failed (wrong codestream comment string)
+    Test "comment = 'KB_MASTER_LOSSLESS_01/01/2015'" failed (wrong codestream comment string)
     ####
 
 Entries in this file are separated by a sequence of 4 '#' characters. Note that each line here corresponds to a failed test in the schema (this information is taken from *Probatron*'s output). For images that are identified as not-valid JP2 some additional information from *jpylyzer*'s output is included as well. For example:
@@ -233,6 +213,6 @@ Other than that, the organisation of images may follow any arbitrary directory s
 
 - [*jpylyzer*](http://jpylyzer.openpreservation.org/)
 - [*Schematron*](http://en.wikipedia.org/wiki/Schematron)
-- [Automated assesment of JP2 against a technical profile using jpylyzer and Schematron](http://www.openplanetsfoundation.org/blogs/2012-09-04-automated-assessment-jp2-against-technical-profile)
+- [Automated assesment of JP2 against a technical profile using jpylyzer and Schematron](http://openpreservation.org/blog/2012/09/04/automated-assessment-jp2-against-technical-profile/)
 
 
