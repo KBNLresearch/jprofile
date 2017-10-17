@@ -117,12 +117,6 @@ def constructFileName(fileIn, extOut, suffixOut):
     return fileOut
 
 
-def addPath(pathIn, fileIn):
-    """Add path to file"""
-    result = os.path.normpath(pathIn + "/" + fileIn)
-    return result
-
-
 def parseCommandLine():
     """Parse command line"""
 
@@ -142,6 +136,9 @@ def parseCommandLine():
                         help='name of profile that defines schemas for master,\
                                access and target images. Type "l" or "list" \
                               to view all available profiles')
+    parser.add_argument('--version', '-v',
+                        action="version",
+                        version=__version__)
 
     # Parse arguments
     args = parser.parse_args()
@@ -161,13 +158,10 @@ def listProfiles(profilesDir):
     sys.exit()
 
 
-def readProfile(profile):
+def readProfile(profile, profilesDir, schemasDir):
     """Read a profile and return dictionary with all associated schemas"""
 
-    # Installation location of jprofile
-    appPath = os.path.abspath(get_main_dir())
-
-    profile = addPath(appPath + "/profiles/", profile)
+    profile = os.path.join(profilesDir, profile)
 
     # Check if profile exists and exit if not
     checkFileExists(profile)
@@ -189,18 +183,12 @@ def readProfile(profile):
     schemaTargetAccessGrayElement = prof.find("schemaTargetAccessGray")
 
     # Get corresponding text values
-    schemaMaster = addPath(appPath + "/schemas/",
-                           schemaMasterElement.text)
-    schemaAccess = addPath(appPath + "/schemas/",
-                           schemaAccessElement.text)
-    schemaTargetRGB = addPath(appPath + "/schemas/",
-                              schemaTargetRGBElement.text)
-    schemaTargetGray = addPath(appPath + "/schemas/",
-                               schemaTargetGrayElement.text)
-    schemaTargetAccessRGB = addPath(appPath + "/schemas/",
-                                    schemaTargetAccessRGBElement.text)
-    schemaTargetAccessGray = addPath(appPath + "/schemas/",
-                                     schemaTargetAccessGrayElement.text)
+    schemaMaster = os.path.join(schemasDir, schemaMasterElement.text)
+    schemaAccess = os.path.join(schemasDir, schemaAccessElement.text)
+    schemaTargetRGB = os.path.join(schemasDir, schemaTargetRGBElement.text)
+    schemaTargetGray = os.path.join(schemasDir, schemaTargetGrayElement.text)
+    schemaTargetAccessRGB = os.path.join(schemasDir, schemaTargetAccessRGBElement.text)
+    schemaTargetAccessGray = os.path.join(schemasDir, schemaTargetAccessGrayElement.text)
 
     # Check if all files exist, and exit if not
     checkFileExists(schemaMaster)
@@ -288,13 +276,20 @@ def getPathComponentsAsList(path):
 def main():
     """Main function"""
 
-    # What is the location of this script/executable
-    appPath = os.path.abspath(get_main_dir())
+    # Locate package directory
+    packageDir = os.path.dirname(os.path.abspath(__file__))
 
-    # Profiles dir
-    profilesDir = os.path.abspath(appPath + "/profiles/")
+    # Profiles and schemas dirs. Location depends on whether jprofile instance
+    # is package or frozen executable (PyInstaller)
 
-    # Check if cprofiles dir exists and exit if not
+    if main_is_frozen():
+        profilesDir = os.path.join(os.path.dirname(sys.executable), "profiles")
+        schemasDir = os.path.join(os.path.dirname(sys.executable), "schemas")
+    else:
+        profilesDir = os.path.join(packageDir, "profiles")
+        schemasDir = os.path.join(packageDir, "schemas")
+
+    # Check if profiles dir exists and exit if not
     checkDirExists(profilesDir)
 
     # Get input from command line
@@ -308,7 +303,7 @@ def main():
         listProfiles(profilesDir)
 
     # Get schema locations from profile
-    schemas = readProfile(profile)
+    schemas = readProfile(profile, profilesDir, schemasDir)
 
     schemaMaster = schemas["schemaMaster"]
     schemaAccess = schemas["schemaAccess"]
