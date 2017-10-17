@@ -42,7 +42,9 @@ setup(name='jprofile',
       url='https://github.com/KBNLresearch/jprofile',
       download_url='https://github.com/KBNLresearch/jprofile/archive/' \
         + find_version('jprofile', 'jprofile.py') + '.tar.gz',
-      package_data={'jprofile': ['*.*']},
+      package_data={'jprofile': ['*.*',
+                                'profiles/*.*',
+                                'schemas/*.*']},
       entry_points={'console_scripts': [
           'jprofile = jprofile.jprofile:main',
       ]},
