@@ -1,7 +1,7 @@
 # -*- mode: python -*-
 a = Analysis(['.\cli.py'],
              pathex=['.\jprofile'],
-             hiddenimports=[],
+             hiddenimports=['jpylyzer', 'lxml'],
              hookspath=None)
 pyz = PYZ(a.pure)
 exe = EXE(pyz,

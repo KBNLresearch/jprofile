@@ -38,8 +38,8 @@ installPython(){
     rm pyTemp.exe
 }
 
-installPyInstaller(){
-    # Installs pyInstaller if it is not installed already. Argument:
+installDependencies(){
+    # Installs dependencies if it is not installed already. Argument:
     # - $1: python (full path of python interpreter)
     echo "Checking for pyinstaller" 
     WINEDEBUG=$WineDebug wine $1 -m pip show pyinstaller
@@ -50,6 +50,27 @@ installPyInstaller(){
         echo "Installing pyinstaller"
         WINEDEBUG=$WineDebug wine $1 -m pip install pyinstaller
     fi
+
+    echo "Checking for lxml" 
+    WINEDEBUG=$WineDebug wine $1 -m pip show lxml
+
+    if [ $? -eq 0 ]; then
+        echo "Lxml already installed"
+    else
+        echo "Installing lxml"
+        WINEDEBUG=$WineDebug wine $1 -m pip install lxml
+    fi
+
+    echo "Checking for jpylyzer" 
+    WINEDEBUG=$WineDebug wine $1 -m pip show jpylyzer
+
+    if [ $? -eq 0 ]; then
+        echo "Jpylyzer already installed"
+    else
+        echo "Installing jpylyzer"
+        WINEDEBUG=$WineDebug wine $1 -m pip install jpylyzer
+    fi
+
 }
 
 buildBinaries(){
@@ -108,8 +129,8 @@ pyRoot64=$(ls -d ~/.wine/drive_c/Python27_64/python-*)
 # Python interpreter
 python64=$pyRoot64"/python.exe" 
 
-# Install PyInstaller (if not installed already)
-installPyInstaller $python64
+# Install dependencies (if not installed already)
+installDependencies $python64
 
 echo "32 bit Python"
 
@@ -127,8 +148,8 @@ pyRoot32=$(ls -d ~/.wine/drive_c/Python27_32/python-*)
 # Python interpreter
 python32=$pyRoot32"/python.exe" 
 
-# Install PyInstaller (if not installed already)
-installPyInstaller $python32
+# Install dependencies (if not installed already)
+installDependencies $python32
 
 echo "Building binaries, 64 bit"
 buildBinaries 64 $pyRoot64 $python64 $specFile64bit
