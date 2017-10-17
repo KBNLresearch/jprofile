@@ -40,7 +40,6 @@ KB/National Library of the Netherlands
 import sys
 import os
 import imp
-import shutil
 import time
 import argparse
 import xml.etree.ElementTree as ET
@@ -90,7 +89,7 @@ def openFileForAppend(file):
     """Opens file for writing in append + binary mode"""
     try:
         f = open(file, "ab")
-        return(f)
+        return f
     except Exception:
         msg = file + " could not be written"
         errorExit(msg)
@@ -128,8 +127,7 @@ def parseCommandLine():
     """Parse command line"""
 
     # Create parser
-    parser = argparse.ArgumentParser(description="JP2 profiler for KB",
-                                     version=__version__)
+    parser = argparse.ArgumentParser(description="JP2 profiler for KB")
 
     # Add arguments
     parser.add_argument('batchDir',
@@ -456,9 +454,9 @@ def main():
 
                     tests = list(testsElt.iter())
 
-                    for i in tests:
-                        if i.text == "False":
-                            ptOutString += "Test " + i.tag + \
+                    for j in tests:
+                        if j.text == "False":
+                            ptOutString += "Test " + j.tag + \
                                 " failed" + lineSep
 
             except:
