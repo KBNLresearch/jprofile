@@ -4,7 +4,37 @@ Johan van der Knijff, KB/National Library of the Netherlands.
 
 ## What is *jprofile*?
 
-*Jprofile* is a simple tool for automated profiling of large batches of *JP2* images. Internally it wraps around [*jpylyzer*](http://jpylyzer.openpreservation.org/), which is used for validating each image and for extracting its properties. The *jpylyzer* output is then validated against a set of [*Schematron*](http://en.wikipedia.org/wiki/Schematron) schemas that contain the required characteristics for master, access and target images, respectively. 
+*Jprofile* is a simple tool for automated profiling of large batches of *JP2* (JPEG 2000 part 1) images. Internally it wraps around [*jpylyzer*](http://jpylyzer.openpreservation.org/), which is used for validating each image and for extracting its properties. The *jpylyzer* output is then validated against a set of [*Schematron*](http://en.wikipedia.org/wiki/Schematron) schemas that contain the required characteristics for master, access and target images, respectively.
+
+## Batch structure
+
+*Jprofile* was designed for processing digitisation batches that are delivered to the KB by external suppliers. These batches typically contain (losslessly compressed) *master* JP2s, (lossily compressed) *access* JP2s and (sometimes) also *technical target* JP2s. These are located in a folder structure that contains (sub) directories named *master*, *access* and *targets-jp2*, respectively. Below is an example:
+
+	./testbatch
+	├── access
+	│   ├── IMAGE000060.jp2
+	│   ├── IMAGE000061.jp2
+	│   ├── IMAGE000062.jp2
+	│   ├── ::
+	│   ├── IMAGE000080.jp2
+	│   └── IMAGE000081.jp2
+	├── master
+	│   ├── IMAGE000060.jp2
+	│   ├── IMAGE000061.jp2
+	│   ├── IMAGE000062.jp2
+	│   ├── ::
+	│   ├── IMAGE000080.jp2
+	│   └── IMAGE000081.jp2
+	└── targets-jp2
+
+
+As long as a batch follows this basic structure, *Jprofile* can handle it. Note that:
+
+* *master*, *access* and *targets-jp2* directories may occur at different nesting levels. This is no problem, since *profile* recursively traverses all subdirctories in a batch.
+
+* if either a *master*, *access* or *targets-jp2* directory is missing, *jprofile* will simply ignore it (i.e. it's perfectly OK if your batch only contains *master* images).
+
+* Batches may contain other folders. These are ignored by *jprofile*. 
 
 ## Licensing
 
