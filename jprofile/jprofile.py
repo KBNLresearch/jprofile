@@ -279,12 +279,55 @@ def getPathComponentsAsList(path):
     folders.reverse()
     return(folders, fileComponent)
 
+def extractSchematron(report):
+    """Parse output of Schematron validation and extract interesting bits"""
+    outString=""
+    reportAsXML = etree.tostring(report)
+
+    for elem in report.iter():
+        if elem.tag == "{http://purl.oclc.org/dsdl/svrl}failed-assert":
+
+            config.status = "fail"
+
+            # Extract test definition
+            test = elem.get('test')
+            outString += 'Test "' + test + '" failed ('
+
+            # Extract text description from text element
+            for subelem in elem.iter():
+                if subelem.tag == "{http://purl.oclc.org/dsdl/svrl}text":
+                    description = (subelem.text)
+                    outString += description + ")" + config.lineSep
+    return outString
+
+
+def extractJpylyzer(resultJpylyzer):
+    """Parse output of Jpylyzer and extract interesting bits"""
+    outString=""
+    validationOutcome = resultJpylyzer.find("isValidJP2").text
+
+    if validationOutcome == "False":
+        testsElt = resultJpylyzer.find('tests')
+        outString += "*** Jpylyzer JP2 validation errors:" \
+            + config.lineSep
+
+        # Iterate over tests element and report names of all
+        # tags thatcorrespond to tests that failed
+
+        tests = list(testsElt.iter())
+
+        for j in tests:
+            if j.text == "False":
+                outString += "Test " + j.tag + \
+                    " failed" + config.lineSep
+    return outString
+
 
 def processJP2(JP2):
     """Process one JP2"""
 
     # Initialise status (pass/fail)
-    status = "pass"
+    config.status = "pass"
     schemaMatch = True
 
     # Initialise empty text string for error log output
@@ -311,7 +354,7 @@ def processJP2(JP2):
             mySchema = config.schemaTargetRGBLXMLElt
     else:
         schemaMatch = False
-        status = "fail"
+        config.status = "fail"
         description = "Name of parent directory does not match any schema"
         ptOutString += description + config.lineSep
 
@@ -322,7 +365,7 @@ def processJP2(JP2):
             resultJpylyzer = jpylyzer.checkOneFile(JP2)
             resultAsXML = ET.tostring(resultJpylyzer, 'UTF-8', 'xml')
         except:
-            status = "fail"
+            config.status = "fail"
             description = "Error running jpylyzer"
             ptOutString += description + config.lineSep
 
@@ -340,68 +383,38 @@ def processJP2(JP2):
             report = schematron.validation_report
 
         except:
-            status = "fail"
+            config.status = "fail"
             description = "Schematron validation resulted in an error"
             ptOutString += description + config.lineSep
 
         # Parse output of Schematron validation and extract
         # interesting bits
         try:
-
-            reportAsXML = etree.tostring(report)
-
-            for elem in report.iter():
-                if elem.tag == "{http://purl.oclc.org/dsdl/svrl}failed-assert":
-
-                    status = "fail"
-
-                    # Extract test definition
-                    test = elem.get('test')
-                    ptOutString += 'Test "' + test + '" failed ('
-
-                    # Extract text description from text element
-                    for subelem in elem.iter():
-                        if subelem.tag == "{http://purl.oclc.org/dsdl/svrl}text":
-                            description = (subelem.text)
-                            ptOutString += description + ")" + config.lineSep
+            schOutString = extractSchematron(report)
+            ptOutString += schOutString
         except Exception:
-            status = "fail"
+            config.status = "fail"
             description = "Error processing Schematron output"
             ptOutString += description + config.lineSep
 
         # Parse jpylyzer XML output and extract info on failed tests
         # in case image is not valid JP2
         try:
-            validationOutcome = resultJpylyzer.find("isValidJP2").text
-
-            if validationOutcome == "False":
-                testsElt = resultJpylyzer.find('tests')
-                ptOutString += "*** Jpylyzer JP2 validation errors:" \
-                    + config.lineSep
-
-                # Iterate over tests element and report names of all
-                # tags thatcorrespond to tests that failed
-
-                tests = list(testsElt.iter())
-
-                for j in tests:
-                    if j.text == "False":
-                        ptOutString += "Test " + j.tag + \
-                            " failed" + config.lineSep
-
+            jpOutString = extractJpylyzer(resultJpylyzer)
+            ptOutString += jpOutString
         except:
-            status = "fail"
+            config.status = "fail"
             description = "Error processing Jpylyzer output"
             ptOutString += description + config.lineSep
 
-    if status == "fail":
+    if config.status == "fail":
 
         config.fFailed.write(JP2 + config.lineSep)
         config.fFailed.write("*** Schema validation errors:" + config.lineSep)
         config.fFailed.write(ptOutString)
         config.fFailed.write("####" + config.lineSep)
 
-    statusLine = JP2 + "," + status + config.lineSep
+    statusLine = JP2 + "," + config.status + config.lineSep
     config.fStatus.write(statusLine)
 
 
