@@ -327,7 +327,6 @@ def main():
     schemaTargetAccessGrayLXMLElt = readAsLXMLElt(schemaTargetAccessGray)
 
     # Set line separator for output/ log files to OS default
-    #lineSep = os.linesep
     lineSep="\n"
 
     # Open log files for writing (append + binary mode so we don't
