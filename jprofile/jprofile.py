@@ -47,7 +47,7 @@ from jpylyzer import jpylyzer
 from lxml import isoschematron
 from lxml import etree
 
-__version__ = "0.7.2"
+__version__ = "0.7.3"
 
 
 def main_is_frozen():
@@ -93,7 +93,7 @@ def openFileForAppend(wFile):
             f = open(wFile, "a", encoding="utf-8")
         # Python 2.x
         elif sys.version.startswith('2'):
-            f = open(wFile, "ab")
+            f = open(wFile, "a")
         return f
 
     except Exception:
@@ -468,7 +468,7 @@ def main():
         if status == "fail":
 
             fFailed.write(myJP2 + lineSep)
-            fFailed.write("*** Schema validation errors:"+lineSep)
+            fFailed.write("*** Schema validation errors:" + lineSep)
             fFailed.write(ptOutString)
             fFailed.write("####" + lineSep)
 
