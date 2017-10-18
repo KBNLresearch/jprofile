@@ -10,13 +10,33 @@ Johan van der Knijff, KB/National Library of the Netherlands.
 
 *Jprofile* is released under the [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl.html).
 
-## Dependencies
-
-*Jprofile* uses the [lxml](http://lxml.de/) toolkit. You need to install this to run the software in Python. The Windows binaries of *jprofile* are completely stand-alone, and don't require the installation of lxml (or anything else).
-
 ## Installation
 
-Just unzip the contents of *jprofile_x.y.z_win32.zip* to any empty directory.
+The easiest method to install *Jprofile* is to use the [*pip* package manager](https://en.wikipedia.org/wiki/Pip_(package_manager)). Alternatively, Windows users can also use stand-alone binaries that don't require Python at all (see below).
+
+## Installation with pip (single user)
+
+This will work on any platform for which Python is available. You need a recent version of *pip* (version 9.0 or more recent). To install *Jprofile* for a single user, use the following command:
+
+    pip install jprofile --user
+
+## Installation with pip (all users)
+
+To install *Jprofile* for *all* users, use the following command:
+
+    pip install jprofile
+
+You need local admin (Windows) / superuser (Linux) privilige to do this. On Windows, you can do this by running the above command in a Command Prompt window that was opened as Administrator. On Linux, use this:
+
+    sudo pip install jprofile
+
+## Installation of Windows binaries
+
+For Windows users who don't have Python available on their system, stand-alone binaries of *Jprofile* are available. In this case the installation steps are:
+
+1. Download the latest binaries (64 or 32 bit) from the [latest release page ](https://github.com/KBNLresearch/jprofile/releases/latest).
+
+2. Unzip the downloaded file to an empty directory. 
 
 ## Command-line syntax
 
