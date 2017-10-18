@@ -47,7 +47,7 @@ from jpylyzer import jpylyzer
 from lxml import isoschematron
 from lxml import etree
 
-__version__ = "0.7.1"
+__version__ = "0.7.2"
 
 
 def main_is_frozen():
@@ -85,13 +85,19 @@ def checkDirExists(pathIn):
         errorExit(msg)
 
 
-def openFileForAppend(file):
+def openFileForAppend(wFile):
     """Opens file for writing in append + binary mode"""
     try:
-        f = open(file, "ab")
+        # Python 3.x
+        if sys.version.startswith('3'):
+            f = open(wFile, "a", encoding="utf-8")
+        # Python 2.x
+        elif sys.version.startswith('2'):
+            f = open(wFile, "ab")
         return f
+
     except Exception:
-        msg = file + " could not be written"
+        msg = wFile + " could not be written"
         errorExit(msg)
 
 
