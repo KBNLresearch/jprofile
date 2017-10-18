@@ -48,7 +48,7 @@ from lxml import isoschematron
 from lxml import etree
 from . import config
 
-__version__ = "0.7.4"
+__version__ = "0.7.5"
 
 
 def main_is_frozen():
@@ -281,6 +281,7 @@ def getPathComponentsAsList(path):
 
 def extractSchematron(report):
     """Parse output of Schematron validation and extract interesting bits"""
+
     outString=""
     reportAsXML = etree.tostring(report)
 
@@ -303,18 +304,23 @@ def extractSchematron(report):
 
 def extractJpylyzer(resultJpylyzer):
     """Parse output of Jpylyzer and extract interesting bits"""
+
     outString=""
     validationOutcome = resultJpylyzer.find("isValidJP2").text
-
     if validationOutcome == "False":
-        testsElt = resultJpylyzer.find('tests')
+        testsElt = resultJpylyzer.find("tests")
+
         outString += "*** Jpylyzer JP2 validation errors:" \
             + config.lineSep
 
         # Iterate over tests element and report names of all
         # tags thatcorrespond to tests that failed
 
-        tests = list(testsElt.iter())
+        # TODO: for some strange reason 'testsElt' is None under Python 3!
+        # iterating over root element behaves as expected, so we'll just
+        # do this as a workaround
+        # tests = list(testsElt.iter())
+        tests = list(resultJpylyzer.iter())
 
         for j in tests:
             if j.text == "False":
@@ -364,7 +370,7 @@ def processJP2(JP2):
         try:
             resultJpylyzer = jpylyzer.checkOneFile(JP2)
             resultAsXML = ET.tostring(resultJpylyzer, 'UTF-8', 'xml')
-        except:
+        except Exception:
             config.status = "fail"
             description = "Error running jpylyzer"
             ptOutString += description + config.lineSep
@@ -382,7 +388,7 @@ def processJP2(JP2):
             schemaValidationResult = schematron.validate(resJpylyzerLXML)
             report = schematron.validation_report
 
-        except:
+        except Exception:
             config.status = "fail"
             description = "Schematron validation resulted in an error"
             ptOutString += description + config.lineSep
@@ -402,10 +408,11 @@ def processJP2(JP2):
         try:
             jpOutString = extractJpylyzer(resultJpylyzer)
             ptOutString += jpOutString
-        except:
+        except Exception:
             config.status = "fail"
             description = "Error processing Jpylyzer output"
             ptOutString += description + config.lineSep
+            raise
 
     if config.status == "fail":
 
@@ -468,10 +475,7 @@ def main():
     # Set line separator for output/ log files to OS default
     config.lineSep = "\n"
 
-    # Open log files for writing (append + binary mode so we don't
-    #  have to worry about encoding issues).
-    # IMPORTANT: files are overwitten for each new session
-    # (hence 'removeFile'before opening below!).
+    # Open log files for writing (append)
 
     # File with summary of quality check status (pass/fail) for each image
     statusLog = os.path.normpath(prefixOut + "_status.csv")
@@ -490,6 +494,7 @@ def main():
     start = time.clock()
     print("jprofile started: " + time.asctime())
 
+    # Iterate over all JP2s 
     for i in range(len(listJP2s)):
         myJP2 = os.path.abspath(listJP2s[i])
         processJP2(myJP2)
