@@ -47,7 +47,7 @@ from jpylyzer import jpylyzer
 from lxml import isoschematron
 from lxml import etree
 
-__version__ = "0.7.3"
+__version__ = "0.7.4"
 
 
 def main_is_frozen():
@@ -327,7 +327,7 @@ def main():
     schemaTargetAccessGrayLXMLElt = readAsLXMLElt(schemaTargetAccessGray)
 
     # Set line separator for output/ log files to OS default
-    lineSep="\n"
+    lineSep = "\n"
 
     # Open log files for writing (append + binary mode so we don't
     #  have to worry about encoding issues).
