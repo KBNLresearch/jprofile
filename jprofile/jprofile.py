@@ -514,7 +514,7 @@ def main():
 
     # Elapsed time (seconds)
     timeElapsed = end - start
-    timeInMinutes = timeElapsed / 60
+    timeInMinutes = round((timeElapsed / 60), 2)
 
     print("Elapsed time: " + str(timeInMinutes) + " minutes")
 
