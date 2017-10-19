@@ -306,8 +306,18 @@ def extractJpylyzer(resultJpylyzer):
 
     outString=""
     validationOutcome = resultJpylyzer.find("isValidJP2").text
+
     if validationOutcome == "False":
-        testsElt = resultJpylyzer.find("tests")
+
+        # Locate test elements
+        # testsElt = resultJpylyzer.find("tests")
+
+        # For some strange reason above statement returns 'None' under
+        # Python 3! Workaround: find it by iterating over resultJpylyzer
+
+        for element in resultJpylyzer.iter():
+            if element.tag == "tests":
+                testsElt = element
 
         outString += "*** Jpylyzer JP2 validation errors:" \
             + config.lineSep
@@ -315,11 +325,7 @@ def extractJpylyzer(resultJpylyzer):
         # Iterate over tests element and report names of all
         # tags thatcorrespond to tests that failed
 
-        # TODO: for some strange reason 'testsElt' is None under Python 3!
-        # iterating over root element behaves as expected, so we'll just
-        # do this as a workaround
-        # tests = list(testsElt.iter())
-        tests = list(resultJpylyzer.iter())
+        tests = list(testsElt.iter())
 
         for j in tests:
             if j.text == "False":
