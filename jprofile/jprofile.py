@@ -283,7 +283,6 @@ def extractSchematron(report):
     """Parse output of Schematron validation and extract interesting bits"""
 
     outString=""
-    reportAsXML = etree.tostring(report)
 
     for elem in report.iter():
         if elem.tag == "{http://purl.oclc.org/dsdl/svrl}failed-assert":
