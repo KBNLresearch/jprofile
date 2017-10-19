@@ -6,7 +6,7 @@ Automated quality control of JP2 images for KB digitisation projects
 Wraps around jpylyzer
 Johan van der Knijff
 
-Requires Python v. 2.7.x + lxml library; Python 3 may work (but not tested)
+Requires Python v. 2.7.x or Python 3.2 or more recent
 
 Preconditions:
 
