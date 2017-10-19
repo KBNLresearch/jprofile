@@ -48,7 +48,7 @@ from lxml import isoschematron
 from lxml import etree
 from . import config
 
-__version__ = "0.7.5"
+__version__ = "0.8.0"
 
 
 def main_is_frozen():
