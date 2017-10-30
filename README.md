@@ -32,7 +32,7 @@ For Windows users who don't have Python available on their system, stand-alone b
 
 1. Download the latest binaries (64 or 32 bit) from the [latest release page ](https://github.com/KBNLresearch/jprofile/releases/latest).
 
-2. Unzip the downloaded file to an empty directory. 
+2. Unzip the downloaded file to an empty directory.
 
 ## Command-line syntax
 
@@ -42,11 +42,11 @@ For Windows users who don't have Python available on their system, stand-alone b
 
 ## Positional arguments
 
-**batchDir**: root directory of batch  
+**batchDir**: root directory of batch
 
 **prefixOut**: prefix that is used for writing output files
 
-**PROFILE**: name of profile that defines schemas for master, access and target images 
+**PROFILE**: name of profile that defines schemas for master, access and target images
 
 To list all available profiles, use a value of *l* or *list* for *PROFILE*.
 
@@ -79,7 +79,7 @@ As long as a batch follows this basic structure, *Jprofile* can handle it. Note 
 
 * if either a *master*, *access* or *targets-jp2* directory is missing, *jprofile* will simply ignore it (i.e. it's perfectly OK if your batch only contains *master* images).
 
-* Batches may contain other folders. These are ignored by *jprofile*. 
+* Batches may contain other folders. These are ignored by *jprofile*.
 
 ## Profiles
 
@@ -104,16 +104,16 @@ The following profiles are included by default:
 | Name|Description|
 | :------| :-----|
 |kb_generic_2014.xml|Generic profile for KB digitisation streams (doesn't include any checks on resolution or colour spaces!)|
-|kb_300Colour_2014.xml|As generic profile, but with additional requirements than resolution equals 300 ppi and colour space is Adobe RGB 1998|
-|kb_300Gray_2014.xml|As generic profile, but with additional requirements than resolution equals 300 ppi and colour space is Gray Gamma 2.2|
-|kb_600Colour_2014.xml|As generic profile, but with additional requirements than resolution equals 600 ppi and colour space is Adobe RGB 1998|
-|kb_600Gray_2014.xml|As generic profile, but with additional requirements than resolution equals 360 ppi and colour space is Gray Gamma 2.2|
+|kb_300Colour_2014.xml|As generic profile, but with additional requirements on resolution (must be equal to 300 ppi) and colour space (must be Adobe RGB 1998)|
+|kb_300Gray_2014.xml|As generic profile, but with additional requirements on resolution (must be equal to 300 ppi) and colour space (must be Gray Gamma 2.2)|
+|kb_600Colour_2014.xml|As generic profile, but with additional requirements on resolution (must be equal to 600 ppi) and colour space (must be Adobe RGB 1998)|
+|kb_600Gray_2014.xml|As generic profile, but with additional requirements on resolution (must be equal to 600 ppi) and colour space (must be Gray Gamma 2.2)|
 
-It is possible to create custom-made profiles. Just add them to the *profiles* directory in the installation folder.   
+It is possible to create custom-made profiles. Just add them to the *profiles* directory in the installation folder.
 
 ## Schemas
 
-The quality assessment is based on a number of rules/tests that are defined a set of *Schematron* schemas. These are located in the *schemas* folder in the installation directory. In principe *any* property that is reported by *jpylyzer* can be used here, and new tests can be added by editing the schemas. More details on this can be found in [this blog post](http://openpreservation.org/knowledge/blogs/2012/09/04/automated-assessment-jp2-against-technical-profile/).  
+The quality assessment is based on a number of rules/tests that are defined a set of *Schematron* schemas. These are located in the *schemas* folder in the installation directory. In principle *any* property that is reported by *jpylyzer* can be used here, and new tests can be added by editing the schemas. More details on this can be found in [this blog post](http://openpreservation.org/knowledge/blogs/2012/09/04/automated-assessment-jp2-against-technical-profile/).  
  
 ## Available schemas
 
@@ -173,7 +173,7 @@ The following tables give a general overview of the technical profiles that the 
 |Sampling rate|Stored in "Capture Resolution" fields|
 |Capture metadata|Embedded as XMP metadata in XML box|
 
-Note that jpylyzer is unable to establish the compression ratio of individual layers, so the access schema only checks for the overall compression ratio (i.e. 20:1). The more specific schemas (300Colour, 600Gray, etc.) contain additional checks for resolution values, the number of colour components and embedded ICC profiles. 
+Note that jpylyzer is unable to establish the compression ratio of individual layers, so the access schema only checks for the overall compression ratio (i.e. 20:1). The more specific schemas (300Colour, 600Gray, etc.) contain additional checks for resolution values, the number of colour components and embedded ICC profiles.
 
 ## Usage examples
 
@@ -184,7 +184,7 @@ Note that jpylyzer is unable to establish the compression ratio of individual la
 This results in a list of all available profiles (these are stored in the installation folder's *profiles* directory):
 
     Available profiles:
-    
+
     kb_600Gray_2014.xml
     kb_300Gray_2014.xml
     kb_300Colour_2014.xml
@@ -210,12 +210,10 @@ This is a comma-separated file with the assessment status of each analysed image
     F:\test\access\MMKB03_000004896_00215_access.jp2,pass
     F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2,fail
     F:\test\master\MMKB03_000004896_00015_master.jp2,pass
- 
 
 ## Failure output file
 
 Any image that failed one or more tests are reported in the failure output file. For each failed image, it contains a full reference to the file path, followed by the specific errors. An example:
-
 
     F:\test\targets-jp2\MMKB03_MTF_RGB_20120626_02_01.jp2
     *** Schema validation errors:
@@ -224,7 +222,7 @@ Any image that failed one or more tests are reported in the failure output file.
     Test "comment = 'KB_MASTER_LOSSLESS_01/01/2015'" failed (wrong codestream comment string)
     ####
 
-Entries in this file are separated by a sequence of 4 '#' characters. Note that each line here corresponds to a failed test in the schema (this information is taken from *Probatron*'s output). For images that are identified as not-valid JP2 some additional information from *jpylyzer*'s output is included as well. For example:
+Entries in this file are separated by a sequence of 4 '#' characters. Note that each line here corresponds to a failed test in the schema. For images that are identified as not-valid JP2 some additional information from *jpylyzer*'s output is included as well. For example:
 
 
     F:\test\master\MMUBL07_MTF_GRAY_20121213_01_05.jp2
@@ -237,9 +235,9 @@ Entries in this file are separated by a sequence of 4 '#' characters. Note that 
     Test foundNextTilePartOrEOC failed
     Test foundEOCMarker failed
     ####
-    
 
-Here, the outcome of test *isValidJP2* means that the image does not conform to the *JP2* specification. The lines following 'Jpylyzer JP2 validation errors' lists the specific errors that were reported by *jpylyzer*. The meaning of these errors can be found in the *jpylyzer* User Manual.
+
+Here, the outcome of test *isValidJP2* means that the image does not conform to the *JP2* specification. The lines following 'Jpylyzer JP2 validation errors' lists the specific errors that were reported by *jpylyzer*. The meaning of these errors can be found in the [*jpylyzer* User Manual](http://jpylyzer.openpreservation.org//userManual.html).
 
 ## Preconditions
 
@@ -249,7 +247,7 @@ Here, the outcome of test *isValidJP2* means that the image does not conform to 
 - *Target* images are located in a (subdirectory of a) directory called '*targets-jp2*'.
 - Either of the above directories may be missing.
 
-Other than that, the organisation of images may follow any arbitrary directory structure (*jprofile* does a recursive scan of whole directory tree of a batch)
+Other than that, the organisation of images may follow any arbitrary directory structure (*jprofile* does a recursive scan of whole directory tree of a batch).
 
 ## Known limitations
 
