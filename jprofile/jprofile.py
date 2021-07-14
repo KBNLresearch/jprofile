@@ -496,7 +496,7 @@ def main():
     listJP2s = getFilesFromTree(batchDir, "jp2")
 
     # start clock for statistics
-    start = time.clock()
+    start = time.time()
     print("jprofile started: " + time.asctime())
 
     # Iterate over all JP2s 
@@ -504,7 +504,7 @@ def main():
         myJP2 = os.path.abspath(listJP2s[i])
         processJP2(myJP2)
 
-    end = time.clock()
+    end = time.time()
 
     # Close output files
     config.fStatus.close()
