@@ -9,7 +9,7 @@
 <s:ns uri="http://openpreservation.org/ns/jpylyzer/" prefix="j"/> 
 
 <s:pattern>
-    <s:title>KB access JP2 2015, , generic (no colour/resolution requirements)</s:title>
+    <s:title>KB access JP2 2015, generic (no colour/resolution requirements)</s:title>
 
     <!-- check that the jpylyzer element exists -->
     <s:rule context="/">
