@@ -305,7 +305,7 @@ def extractJpylyzer(resultJpylyzer):
     """Parse output of Jpylyzer and extract interesting bits"""
 
     outString=""
-    validationOutcome = resultJpylyzer.find("isValidJP2").text
+    validationOutcome = resultJpylyzer.find("isValid").text
 
     if validationOutcome == "False":
 
