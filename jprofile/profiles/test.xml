@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<profile>
+
+<!-- Test
+
+ -->
+
+<!-- Names of Schematron schemas for master, access and target images
+NOTE: names only, not full paths (default location! -->
+
+<schemaMaster>test.sch</schemaMaster>
+<schemaAccess>test.sch</schemaAccess>
+<schemaTargetRGB>test.sch</schemaTargetRGB>
+<schemaTargetGray>test.sch</schemaTargetGray>
+<schemaTargetAccessRGB>test.sch</schemaTargetAccessRGB>
+<schemaTargetAccessGray>test.sch</schemaTargetAccessGray>
+
+</profile>
+
