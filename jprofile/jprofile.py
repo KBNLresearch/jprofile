@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 
 """JPEG 2000 Automated Quality Assessment Tool
 
@@ -6,7 +6,7 @@ Automated quality control of JP2 images for KB digitisation projects
 Wraps around jpylyzer
 Johan van der Knijff
 
-Requires Python v. 2.7.x or Python 3.2 or more recent
+Requires Python 3.2 or more recent
 
 Preconditions:
 
@@ -48,7 +48,7 @@ from lxml import isoschematron
 from lxml import etree
 from . import config
 
-__version__ = "0.8.0"
+__version__ = "0.9.0"
 
 
 def main_is_frozen():
