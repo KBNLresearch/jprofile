@@ -6,28 +6,28 @@
    Additional checks for ICC profile and resolution 
 -->
 <s:schema xmlns:s="http://purl.oclc.org/dsdl/schematron">
-<s:ns uri="http://openpreservation.org/ns/jpylyzer/" prefix="j"/> 
+<s:ns uri="http://openpreservation.org/ns/jpylyzer/v2/" prefix="j"/> 
 
 <s:pattern>
     <s:title>KB master JP2 2015, colour, 600 PPI</s:title>
 
     <!-- check that the jpylyzer element exists -->
     <s:rule context="/">
-        <s:assert test="j:jpylyzer">no jpylyzer element found</s:assert>
+        <s:assert test="j:file">no file element found</s:assert>
     </s:rule>
 
     <!-- top-level Jpylyzer checks -->
-    <s:rule context="/j:jpylyzer">
+    <s:rule context="/j:file">
 
         <!-- check that success value equals 'True' -->
         <s:assert test="j:statusInfo/j:success = 'True'">jpylyzer did not run successfully</s:assert>
          
-        <!-- check that isValidJP2 element exists with the text 'True' -->
-        <s:assert test="j:isValidJP2 = 'True'">not valid JP2</s:assert>
+        <!-- check that isValid element exists with the text 'True' -->
+        <s:assert test="j:isValid = 'True'">not valid JP2</s:assert>
     </s:rule>
 
     <!-- Top-level properties checks -->
-    <s:rule context="/j:jpylyzer/j:properties">
+    <s:rule context="/j:file/j:properties">
 
         <!-- check that xml box exists -->
         <s:assert test="j:xmlBox">no XML box</s:assert>
@@ -35,17 +35,17 @@
     </s:rule>
 
     <!-- check that resolution box exists -->
-    <s:rule context="/j:jpylyzer/j:properties/j:jp2HeaderBox">
+    <s:rule context="/j:file/j:properties/j:jp2HeaderBox">
         <s:assert test="j:resolutionBox">no resolution box</s:assert>
     </s:rule>
 
     <!-- check that resolution box contains capture resolution box -->
-    <s:rule context="/j:jpylyzer/j:properties/j:jp2HeaderBox/j:resolutionBox">
+    <s:rule context="/j:file/j:properties/j:jp2HeaderBox/j:resolutionBox">
         <s:assert test="j:captureResolutionBox">no capture resolution box</s:assert>
     </s:rule>
 
     <!-- check that resolution is correct value (tolerance of +/- 1 ppi to allow for rounding errors) -->
-    <s:rule context="/j:jpylyzer/j:properties/j:jp2HeaderBox/j:resolutionBox/j:captureResolutionBox">
+    <s:rule context="/j:file/j:properties/j:jp2HeaderBox/j:resolutionBox/j:captureResolutionBox">
         <s:assert test="(j:vRescInPixelsPerInch &gt; 599) and
         (j:vRescInPixelsPerInch &lt; 601)">wrong vertical capture resolution </s:assert>
         <s:assert test="(j:hRescInPixelsPerInch &gt; 599) and 
@@ -53,29 +53,29 @@
     </s:rule>
 
     <!-- check that number of colour components equals 3 -->
-    <s:rule context="/j:jpylyzer/j:properties/j:jp2HeaderBox/j:imageHeaderBox">
+    <s:rule context="/j:file/j:properties/j:jp2HeaderBox/j:imageHeaderBox">
         <s:assert test="j:nC = '3'">wrong number of colour components</s:assert>
     </s:rule>
 
     <!-- check that METH equals 'Restricted ICC' -->
-    <s:rule context="/j:jpylyzer/j:properties/j:jp2HeaderBox/j:colourSpecificationBox">
+    <s:rule context="/j:file/j:properties/j:jp2HeaderBox/j:colourSpecificationBox">
         <s:assert test="j:meth = 'Restricted ICC'">METH not 'Restricted ICC'</s:assert>
     </s:rule>
 
     <!-- check that ICC profile description equals 'Adobe RGB (1998)' -->
-    <s:rule context="/j:jpylyzer/j:properties/j:jp2HeaderBox/j:colourSpecificationBox/j:icc">
+    <s:rule context="/j:file/j:properties/j:jp2HeaderBox/j:colourSpecificationBox/j:icc">
         <s:assert test="j:description = 'Adobe RGB (1998)'">wrong colour space</s:assert>
     </s:rule>
 
     <!-- check X- and Y- tile sizes -->
-    <s:rule context="/j:jpylyzer/j:properties/j:contiguousCodestreamBox/j:siz">
+    <s:rule context="/j:file/j:properties/j:contiguousCodestreamBox/j:siz">
         <s:assert test="j:xTsiz = '1024'">wrong X Tile size</s:assert>
         <s:assert test="j:yTsiz = '1024'">wrong Y Tile size</s:assert>
     </s:rule>
 
     <!-- checks on codestream COD parameters -->
 
-    <s:rule context="/j:jpylyzer/j:properties/j:contiguousCodestreamBox/j:cod">
+    <s:rule context="/j:file/j:properties/j:contiguousCodestreamBox/j:cod">
 
         <!-- Error resilience features: sop, eph and segmentation symbols -->
         <s:assert test="j:sop = 'yes'">no start-of-packet headers</s:assert>
@@ -123,7 +123,7 @@
 
     <!-- Check specs reference as codestream comment -->
     <!-- Rule looks for one exact match, additional codestream comments are permitted -->
-    <s:rule context="/j:jpylyzer/j:properties/j:contiguousCodestreamBox">
+    <s:rule context="/j:file/j:properties/j:contiguousCodestreamBox">
         <s:assert test="count(j:com/j:comment[text()='KB_MASTER_LOSSLESS_01/01/2015']) =1">Expected codestream comment string missing</s:assert>
       </s:rule>
 </s:pattern>
