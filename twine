@@ -1,0 +1,19 @@
+2021-07-14T14:54:20,229 User install by explicit request
+2021-07-14T14:54:20,300 Created temporary directory: /tmp/pip-ephem-wheel-cache-wvtm7_co
+2021-07-14T14:54:20,300 Created temporary directory: /tmp/pip-req-tracker-49a1o80_
+2021-07-14T14:54:20,301 Initialized build tracking at /tmp/pip-req-tracker-49a1o80_
+2021-07-14T14:54:20,301 Created build tracker: /tmp/pip-req-tracker-49a1o80_
+2021-07-14T14:54:20,301 Entered build tracker: /tmp/pip-req-tracker-49a1o80_
+2021-07-14T14:54:20,301 Created temporary directory: /tmp/pip-install-x54c05qm
+2021-07-14T14:54:20,301 Cleaning up...
+2021-07-14T14:54:20,301 Removed build tracker: '/tmp/pip-req-tracker-49a1o80_'
+2021-07-14T14:54:20,301 ERROR: You must give at least one requirement to install (see "pip help install")
+2021-07-14T14:54:20,301 Exception information:
+2021-07-14T14:54:20,301 Traceback (most recent call last):
+2021-07-14T14:54:20,301   File "/usr/lib/python3/dist-packages/pip/_internal/cli/base_command.py", line 186, in _main
+2021-07-14T14:54:20,301     status = self.run(options, args)
+2021-07-14T14:54:20,301   File "/usr/lib/python3/dist-packages/pip/_internal/commands/install.py", line 325, in run
+2021-07-14T14:54:20,301     self.populate_requirement_set(
+2021-07-14T14:54:20,301   File "/usr/lib/python3/dist-packages/pip/_internal/cli/req_command.py", line 290, in populate_requirement_set
+2021-07-14T14:54:20,301     raise CommandError(
+2021-07-14T14:54:20,301 pip._internal.exceptions.CommandError: You must give at least one requirement to install (see "pip help install")
