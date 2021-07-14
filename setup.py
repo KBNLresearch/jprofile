@@ -19,8 +19,8 @@ def find_version(*file_paths):
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
 
-INSTALL_REQUIRES = ['setuptools', 'jpylyzer', 'lxml']
-PYTHON_REQUIRES = '>=2.7, !=3.0.*, !=3.1.*, <4'
+INSTALL_REQUIRES = ['setuptools', 'jpylyzer>=2.0.0', 'lxml']
+PYTHON_REQUIRES = '>=3.2, <4'
 
 README = open('README.md', 'r')
 README_TEXT = README.read()
