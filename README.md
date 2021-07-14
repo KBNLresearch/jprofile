@@ -28,17 +28,23 @@ You need local admin (Windows) / superuser (Linux) privilige to do this. On Wind
 
 ## Installation of Windows binaries
 
+Windows binaries are discontinued from jprofile 0.9.0 onward, use pip installation instead!
+
+<!--
+
 For Windows users who don't have Python available on their system, stand-alone binaries of *Jprofile* are available. In this case the installation steps are:
 
 1. Download the latest binaries (64 or 32 bit) from the [latest release page ](https://github.com/KBNLresearch/jprofile/releases/latest).
 
 2. Unzip the downloaded file to an empty directory.
 
+-->
+
 ## Command-line syntax
 
-
-    usage: jprofile batchDir prefixOut -p PROFILE
-
+```
+usage: jprofile batchDir prefixOut -p PROFILE
+```
 
 ## Positional arguments
 
