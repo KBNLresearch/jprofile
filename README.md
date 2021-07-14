@@ -79,7 +79,7 @@ To list all available profiles, use a value of *l* or *list* for *PROFILE*.
 
 As long as a batch follows this basic structure, *Jprofile* can handle it. Note that:
 
-* *master*, *access* and *targets-jp2* directories may occur at different nesting levels. This is no problem, since *jprofile* recursively traverses all subdirctories in a batch.
+* *master*, *access* and *targets-jp2* directories may occur at different nesting levels. This is no problem, since *jprofile* recursively traverses all subdirectories in a batch.
 
 * if either a *master*, *access* or *targets-jp2* directory is missing, *jprofile* will simply ignore it (i.e. it's perfectly OK if your batch only contains *master* images).
 
