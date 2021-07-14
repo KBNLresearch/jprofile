@@ -8,7 +8,7 @@
 
 ## Installation
 
-The easiest method to install *Jprofile* is to use the [*pip* package manager](https://en.wikipedia.org/wiki/Pip_(package_manager)). Alternatively, Windows users can also use stand-alone binaries that don't require Python at all (see below).
+The easiest method to install *Jprofile* is to use the [*pip* package manager](https://en.wikipedia.org/wiki/Pip_(package_manager)). <strike>Alternatively, Windows users can also use stand-alone binaries that don't require Python at all (see below).</strike> Windows binaries are discontinued from jprofile 0.9.0 onward, use pip installation instead!
 
 ## Installation with pip (single user)
 
@@ -26,11 +26,9 @@ You need local admin (Windows) / superuser (Linux) privilige to do this. On Wind
 
     sudo pip install jprofile
 
-## Installation of Windows binaries
-
-Windows binaries are discontinued from jprofile 0.9.0 onward, use pip installation instead!
-
 <!--
+
+## Installation of Windows binaries
 
 For Windows users who don't have Python available on their system, stand-alone binaries of *Jprofile* are available. In this case the installation steps are:
 
